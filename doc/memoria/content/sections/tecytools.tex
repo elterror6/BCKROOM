@@ -1,0 +1,39 @@
+\section{Gestión de Configuración}
+
+\subsection{Control de Versiones}
+
+Para controlar el versionado del proyecto se va a utilizar la herramienta Git, y el repositorio remoto se va ha encontrar alojado en Github.
+
+\subsubsection{Estrategia de Ramas}
+
+En este proyecto habrá dos ramas fijas que son main y development, main es la rama principal del proyecto, aquella que contenerá las versiones finales del sistema, y development esta creada desde main y esta rama contendrá el sistema en desarrollo. Después habrá varios tipos de ramas, que son temporales, que son las ramas feature, fix, hotfix y realeases, todas estas ramas son ramas temporales creadas con una intención específica.
+
+Los tipos de ramas feature son ramas que sirven para desarrollar nuevas funcionalidades del sistema, este tipo de ramas se desarrollan de la rama development, cuando se termina de realizar la funcionalidad se combina a la rama development y se elimina. El formato de nombre de la rama sería el siguiente \textit{feature/<modulo>-<descripción corta>}, el módulo se refiere a que tipo de funcionalidad mayor se esta haciendo el cambio y la descripción corta es la acción específica que se realiza, por ejemplo, \textit{feature/auth-login}.
+
+Los tipos de rama fix sirven para poder realizar correcciones grandes del sistema, estas ramas se desarrollan de la rama de development, cuando se termina de realizar la corrección se combina a la rama development y se elimina. El formato de nombre de la rama sería el siguiente \textit{fix/<modulo>-<descripción corta>}, por ejemplo, \textit{fix/auth-login}.
+
+Los tipos de rama release sirven para poder realizar pruebas sobre lo desarrollado antes de llevar los cambios a la rama main y cambiar documentación, estas ramas se desarrollan de la rama de development, cuando se termina de realizar las pruebas se combina a la rama main y se elimina. El formato de nombre de la rama sería el siguiente \textit{fix/<vM.m.p>}, por ejemplo, \textit{fix/1.5.2}.
+
+Los tipos de rama hotfix sirven para poder realizar correcciones rápidas y pequeñas del sistema, estas ramas se desarrollan de la rama de main o release, cuando se termina de realizar la corrección se combina a la rama main y se elimina. El formato de nombre de la rama sería el siguiente \textit{hotfix/<modulo>-<descripción corta>}, por ejemplo, \textit{hotfix/auth-login}.
+
+\subsubsection{Formato de Commits}
+
+El formato de commits que se utilizará en este proyecto será el siguiente \textit{<tipo>(<id de issue>): <mensaje corto en infinitivo>}. Los tipos de commits son los siguientes:
+\begin{itemize}
+    \item \textbf{feat}. Indica nueva funcionalidad.
+    \item \textbf{refactor}. Indica refactorización sin cambiar comportamiento.
+    \item \textbf{fix}. Indica corrección de errores.
+    \item \textbf{docs}. Indica documentación.
+    \item \textbf{test}. Indica pruebas.
+    \item \textbf{style}. Indica cambios en el estilo, formato, etc.
+    \item \textbf{chore}. Indica tareas técnicas.
+\end{itemize}
+
+\subsection{Gestión de Versiones}
+
+En este proyecto se va a usar el modo de versionado MAJOR.minor.patch, para cada sprint se verá cuantas funcionalidades o cambios aprobados se han alcanzado, se asignará el número de versión correspondiente y etiquetar con un commit concreto la versión del proyecto en la rama master.
+
+En el repositorio habrá un archivo de changelog en donde se organizarán los cambios de cada versión estable. Este archivo se tendrá que editar y actualizar antes de realizar el commit final que contendrá el tag.
+
+Después de que todos los cambios realizados hayan pasado el visto bueno y se haya actualizado el changelog y se realice la etiqueta del commit se creará una liberación, se le pone un nombre que seá vM.m.p correspondiente y la descripción será la parte del changelog correspondiente a esa versión.
+
