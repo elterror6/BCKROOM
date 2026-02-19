@@ -17,3 +17,4 @@ buildNumber.properties
 .classpath
 .metadata
 bckroom/.metadata/
+bckroom/src/main/resources/application.properties
