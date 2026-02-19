@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Index;
+import jakarta.persistence.Embedded;
 
 @Entity
 @Table(
@@ -34,13 +35,12 @@ public class Usuario {
 	@Column
 	private String segundoApellido;
 	
-	@Column
+	@Embedded
 	private Direccion direccion;
 
-	public Usuario(Long id, String username, String passwd, String nombre, String primerApellido,
+	public Usuario(String username, String passwd, String nombre, String primerApellido,
 			String segundoApellido, Direccion direccion) {
 		super();
-		this.id = id;
 		this.username = username;
 		this.passwd = passwd;
 		this.nombre = nombre;
@@ -95,6 +95,5 @@ public class Usuario {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
-	
 	
 }
