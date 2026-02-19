@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Index;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Embedded;
 
 @Entity
@@ -15,6 +17,7 @@ import jakarta.persistence.Embedded;
 			@Index(columnList="username")
 		}
 )
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
