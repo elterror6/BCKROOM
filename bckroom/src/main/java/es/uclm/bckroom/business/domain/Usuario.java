@@ -40,6 +40,12 @@ public class Usuario {
 	
 	@Embedded
 	private Direccion direccion;
+	
+	
+
+	public Usuario() {
+		super();
+	}
 
 	public Usuario(String username, String passwd, String nombre, String primerApellido,
 			String segundoApellido, Direccion direccion) {

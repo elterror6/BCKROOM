@@ -8,8 +8,12 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Propietario extends Usuario {
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Inmueble> inmuebles;
+	
+	public Propietario() {
+	    super();
+	}
 	
 	public Propietario(String username, String passwd, String nombre, String primerApellido, String segundoApellido,
 			Direccion direccion, List<Inmueble> inmuebles) {
