@@ -104,5 +104,8 @@ public class Usuario {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
+	public String getPasswd() {
+		return this.passwd;
+	}
 	
 }

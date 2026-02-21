@@ -1,0 +1,35 @@
+{
+	"folders": {},
+	"connections": {
+		"derby-19c7d111023-716afa74711ae8a2": {
+			"provider": "generic",
+			"driver": "derby",
+			"name": "database",
+			"save-password": true,
+			"configuration": {
+				"database": "C:\\Users\\danib\\Documents\\ISO2\\BCKROOM\\bckroom\\database",
+				"url": "jdbc:derby:C:\\Users\\danib\\Documents\\ISO2\\BCKROOM\\bckroom\\database",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}
