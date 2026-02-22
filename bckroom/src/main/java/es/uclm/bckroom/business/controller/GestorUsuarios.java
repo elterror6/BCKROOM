@@ -1,5 +1,7 @@
 package es.uclm.bckroom.business.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +54,29 @@ public class GestorUsuarios implements IGestorUsuarios{
 	@GetMapping("/login")
 	public String loginForm(Model model) {
 		model.addAttribute("usuario", new Usuario());
-		log.info(usuarioDAO.findAll().toString());
 		return "login";
+	}
+	@PostMapping("/login")
+	public String loginSubmit(@ModelAttribute Usuario usuario, Model model) {
+		Optional<Usuario> usuarioOpt = usuarioDAO.findByUsername(usuario.getUsername());
+		
+		if(usuarioOpt.isPresent()) {
+			Usuario usuarioIniciarSesion = usuarioOpt.get();
+			
+			if(usuarioIniciarSesion.checkPasswd(usuario.getPasswd())) {
+				if(usuarioOpt.get() instanceof Inquilino) {
+					return "inquilino/home";
+				} else {
+					return "propietario/home";
+				}
+				
+			} else {
+				model.addAttribute("error","Contraseña incorrecta");
+				return "login";
+			}
+		} else {
+			model.addAttribute("error", "Usuario no encontrado");
+			return "login";
+		}
 	}
 }
