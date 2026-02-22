@@ -1,5 +1,6 @@
 package es.uclm.bckroom.business.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +14,11 @@ public class Propietario extends Usuario {
 	
 	public Propietario() {
 	    super();
+	}
+	
+	public Propietario(Usuario usuario) {
+		super(usuario);
+		this.inmuebles=new ArrayList<>();
 	}
 	
 	public Propietario(String username, String passwd, String nombre, String primerApellido, String segundoApellido,

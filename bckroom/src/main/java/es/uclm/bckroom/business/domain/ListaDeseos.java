@@ -1,5 +1,6 @@
 package es.uclm.bckroom.business.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class ListaDeseos {
 	)
 	private Set<Inmueble> inmueblesDeseados;
 	public ListaDeseos() {
-		
+		this.inmueblesDeseados = new HashSet<>();
 	}
 
 }
