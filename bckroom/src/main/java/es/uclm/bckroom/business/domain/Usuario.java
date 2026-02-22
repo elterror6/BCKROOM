@@ -108,7 +108,7 @@ public class Usuario {
 	}
 	
 	public boolean checkPasswd(String posiblePasswd) {
-		return this.passwd == posiblePasswd;
+		return this.passwd.equals(posiblePasswd);
 	}
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;

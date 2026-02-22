@@ -8,6 +8,17 @@ body {
 	  color: #1a1000;
 }
 
+.error-msg {
+	background-color: #ff998a;
+	border-style: solid;
+	border-color: #ff2200;
+	border-radius: 15px;
+	color: #ffffff;
+	font-size: 10px;
+	padding-left: 5px;
+	
+}
+
 .auth-body {
 	display: flex;
 	    
