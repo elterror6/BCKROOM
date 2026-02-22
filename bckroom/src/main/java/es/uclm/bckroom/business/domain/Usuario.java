@@ -46,6 +46,15 @@ public class Usuario {
 	public Usuario() {
 		super();
 	}
+	
+	public Usuario(Usuario usuario) {
+		this.username = usuario.getUsername();
+		this.direccion = usuario.getDireccion();
+		this.nombre = usuario.getNombre();
+		this.passwd = getPasswd();
+		this.primerApellido = usuario.getPrimerApellido();
+		this.segundoApellido = usuario.getSegundoApellido();
+	}
 
 	public Usuario(String username, String passwd, String nombre, String primerApellido,
 			String segundoApellido, Direccion direccion) {
@@ -99,7 +108,7 @@ public class Usuario {
 	}
 	
 	public boolean checkPasswd(String posiblePasswd) {
-		return this.passwd == posiblePasswd;
+		return this.passwd.equals(posiblePasswd);
 	}
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;

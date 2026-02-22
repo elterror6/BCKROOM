@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<htlm xmlns:th = "https://www.thymeleaf.org">
+	<head>
+		<link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body class="auth-body">
+		<div class="form-div">
+			<h1>Iniciar Sesión</h1>
+			<form action="#" th:action="@{/login}" th:object="${usuario}" method="post" class="form-grid">
+				<div class="form-section">
+					<label for="usrnm">Nombre de Usuario<br></label>
+					<input type="text" th:field="*{username}" id="usrnm"/>
+					<br>
+					<label for="psswd">Contraseña<br></label>
+					<input type="password" th:field="*{passwd}" id="psswd"/>
+					<br>
+					<button type="submit">Iniciar Sesión</button>
+					<div class="error-msg" th:if="${error != null}">
+					        <p th:text="${error}"></p>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
