@@ -1,6 +1,14 @@
 package es.uclm.bckroom.business.domain;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Inquilino extends Usuario {
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lista_id")
 	private ListaDeseos listaDeseos;
 	public Inquilino() {
 	}
@@ -10,7 +18,7 @@ public class Inquilino extends Usuario {
 		super(username, passwd, nombre, primerApellido, segundoApellido, direccion);
 		this.listaDeseos=listaDeseos;
 	}
-
+	
 	public ListaDeseos getListaDeseos() {
 		return listaDeseos;
 	}
