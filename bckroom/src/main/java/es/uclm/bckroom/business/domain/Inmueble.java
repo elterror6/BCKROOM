@@ -17,6 +17,7 @@ public class Inmueble {
 	@ManyToOne
 	@JoinColumn(name = "propietario_id")
 	private Propietario propietario;
+	
 	@Embedded
 	private Direccion direccion;
 	@Column
@@ -47,5 +48,10 @@ public class Inmueble {
 		this.precioNoche = precioNoche;
 	}
 	
-	
+	public Propietario getPropietario() {
+		return propietario;
+	}
+	public void setPropietario(Propietario propietario) {
+		this.propietario = propietario;
+	}
 }

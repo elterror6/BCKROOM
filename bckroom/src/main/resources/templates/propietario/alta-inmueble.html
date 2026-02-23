@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<htlm xmlns:th = "https://www.thymeleaf.org">
+	<head>
+		<link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body class="auth-body">
+		<div class="form-div">
+			<h1>Dar de Alta Inmuble</h1>
+			<form action="#" th:action="@{/alta-inmueble}" th:object="${inmueble}" method="post" class="form-grid">
+				<div class="form-section">
+					<label for="str">Calle<br></label>
+					<input type="text" th:field="*{direccion.calle}" id="str"/>
+					<br>
+					<label for="num">Número<br></label>
+					<input type="text" th:field="*{direccion.numero}" id="num"/>
+					<br>
+					<label for="flr">Piso<br></label>
+					<input type="text" th:field="*{direccion.piso}" id="flr"/>
+					<br>
+					<label for="dr">Puerta<br></label>
+					<input type="text" th:field="*{direccion.puerta}" id="dr"/>
+					<br>
+					<label for="cty">Ciudad<br></label>
+					<input type="text" th:field="*{direccion.ciudad}" id="cty"/>
+					<br>
+					<button type="submit">Dar de Alta</button>
+					<div class="error-msg" th:if="${error != null}">
+					        <p th:text="${error}"></p>
+					</div>
+				</div>
+				<div class="form-section">
+					<label for="sta">Provincia<br></label>
+					<input type="text" th:field="*{direccion.estado}" id="sta"/>
+					<br>
+					<label for="cp">Código Postal<br></label>
+					<input type="text" th:field="*{direccion.codigoPostal}" id="cp"/>
+					<br>
+					<label for="cntr">País<br></label>
+					<input type="text" th:field="*{direccion.pais}" id="cntr"/>
+					<br>
+					<label for="prn">Precio por Noche<br></label>
+					<input type="text" th:field="*{precioNoche}" id="prn"/>
+					<br>
+					<button type="submit">Cancelar</button>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

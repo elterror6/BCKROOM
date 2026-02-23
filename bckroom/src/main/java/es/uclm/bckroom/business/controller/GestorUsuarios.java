@@ -1,5 +1,6 @@
 package es.uclm.bckroom.business.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Inquilino;
 import es.uclm.bckroom.business.domain.Propietario;
 import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.persistence.UsuarioDAO;
+import jakarta.servlet.http.HttpSession;
 import es.uclm.bckroom.persistence.PropietarioDAO;
 import es.uclm.bckroom.persistence.InquilinoDAO;
 
@@ -57,16 +60,24 @@ public class GestorUsuarios implements IGestorUsuarios{
 		return "login";
 	}
 	@PostMapping("/login")
-	public String loginSubmit(@ModelAttribute Usuario usuario, Model model) {
+	public String loginSubmit(@ModelAttribute Usuario usuario, Model model, HttpSession session) {
 		Optional<Usuario> usuarioOpt = usuarioDAO.findByUsername(usuario.getUsername());
 		
 		if(usuarioOpt.isPresent()) {
 			Usuario usuarioIniciarSesion = usuarioOpt.get();
 			
 			if(usuarioIniciarSesion.checkPasswd(usuario.getPasswd())) {
-				if(usuarioOpt.get() instanceof Inquilino) {
+				session.setAttribute("usuarioLogueado", usuarioIniciarSesion);
+				if(usuarioIniciarSesion instanceof Inquilino) {
 					return "inquilino/home";
 				} else {
+					Propietario usuarioPropietario = (Propietario) usuarioIniciarSesion;
+					List<Inmueble> inmueblesPropietario = usuarioPropietario.getInmuebles();
+					int numeroInmuebles = inmueblesPropietario.size();
+					
+					if (numeroInmuebles == 0) {
+						return "propietario/alta-inmueble";
+					}
 					return "propietario/home";
 				}
 				
