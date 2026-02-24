@@ -8,7 +8,7 @@
 	<body class="auth-body">
 		<div class="form-div">
 			<h1>Dar de Alta Inmuble</h1>
-			<form action="#" th:action="@{/alta-inmueble}" th:object="${inmueble}" method="post" class="form-grid">
+			<form action="#" th:action="@{/propietario/alta-inmueble}" th:object="${inmueble}" method="post" class="form-grid">
 				<div class="form-section">
 					<label for="str">Calle<br></label>
 					<input type="text" th:field="*{direccion.calle}" id="str"/>

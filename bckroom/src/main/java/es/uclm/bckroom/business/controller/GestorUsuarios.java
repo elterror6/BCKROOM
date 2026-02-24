@@ -76,7 +76,7 @@ public class GestorUsuarios implements IGestorUsuarios{
 					int numeroInmuebles = inmueblesPropietario.size();
 					
 					if (numeroInmuebles == 0) {
-						return "propietario/alta-inmueble";
+						return "redirect:/propietario/alta-inmueble";
 					}
 					return "propietario/home";
 				}
