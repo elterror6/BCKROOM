@@ -33,3 +33,5 @@ build/
 .vscode/
 
 database/*
+.dbeaver/*
+derby.log

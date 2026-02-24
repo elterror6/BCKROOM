@@ -51,7 +51,7 @@ public class Usuario {
 		this.username = usuario.getUsername();
 		this.direccion = usuario.getDireccion();
 		this.nombre = usuario.getNombre();
-		this.passwd = getPasswd();
+		this.passwd = usuario.getPasswd();
 		this.primerApellido = usuario.getPrimerApellido();
 		this.segundoApellido = usuario.getSegundoApellido();
 	}
