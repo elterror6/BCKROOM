@@ -22,7 +22,7 @@ public class Propietario extends Usuario {
 	}
 	
 	public Propietario(String username, String passwd, String nombre, String primerApellido, String segundoApellido,
-			Direccion direccion) {
+			DireccionUsuario direccion) {
 		super(username, passwd, nombre, primerApellido, segundoApellido, direccion);
 		this.inmuebles=new ArrayList<>();
 	}

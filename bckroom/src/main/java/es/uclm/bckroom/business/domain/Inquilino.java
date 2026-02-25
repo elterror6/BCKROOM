@@ -19,7 +19,7 @@ public class Inquilino extends Usuario {
 	}
 
 	public Inquilino(String username, String passwd, String nombre, String primerApellido, String segundoApellido,
-			Direccion direccion, ListaDeseos listaDeseos) {
+			DireccionUsuario direccion, ListaDeseos listaDeseos) {
 		super(username, passwd, nombre, primerApellido, segundoApellido, direccion);
 		this.listaDeseos=listaDeseos;
 	}

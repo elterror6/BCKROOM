@@ -19,24 +19,24 @@ public class Inmueble {
 	private Propietario propietario;
 	
 	@Embedded
-	private Direccion direccion;
+	private DireccionInmueble direccion;
 	@Column
 	private double precioNoche;
 	
 	public Inmueble() {
 	    super();
 	}
-	public Inmueble(Direccion direccion, double precioNoche) {
+	public Inmueble(DireccionInmueble direccion, double precioNoche) {
 		super();
 		this.direccion = direccion;
 		this.precioNoche = precioNoche;
 	}
 
-	public Direccion getDireccion() {
+	public DireccionInmueble getDireccion() {
 		return direccion;
 	}
 
-	public void setDireccion(Direccion direccion) {
+	public void setDireccion(DireccionInmueble direccion) {
 		this.direccion = direccion;
 	}
 
