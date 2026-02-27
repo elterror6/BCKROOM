@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import es.uclm.bckroom.business.domain.DireccionInmueble;
 import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Propietario;
+import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.persistence.InmuebleDAO;
 import jakarta.servlet.http.HttpSession;
@@ -32,7 +33,6 @@ public class GestorInmuebles {
 	    }
 	    
 	    Inmueble inmueble = new Inmueble();
-	    inmueble.setDireccion(new DireccionInmueble());
 	    
 		model.addAttribute("inmueble", inmueble);
 		return "propietario/alta-inmueble";
@@ -50,5 +50,9 @@ public class GestorInmuebles {
 	    inmuebleDAO.save(inmueble);
 	    
 	    return "/propietario/alta-inmueble-success";
+	}
+	@ModelAttribute("tiposCalle")
+	public TipoCalle[] tiposCalle() {
+	    return TipoCalle.values();
 	}
 }

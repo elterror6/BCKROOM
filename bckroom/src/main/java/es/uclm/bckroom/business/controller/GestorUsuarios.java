@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Inquilino;
 import es.uclm.bckroom.business.domain.Propietario;
+import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.persistence.UsuarioDAO;
 import jakarta.servlet.http.HttpSession;
@@ -89,5 +90,10 @@ public class GestorUsuarios implements IGestorUsuarios{
 			model.addAttribute("error", "Usuario no encontrado");
 			return "login";
 		}
+	}
+	
+	@ModelAttribute("tiposCalle")
+	public TipoCalle[] tiposCalle() {
+	    return TipoCalle.values();
 	}
 }

@@ -1,9 +1,10 @@
 package es.uclm.bckroom.business.domain;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.MappedSuperclass;
 
-@Embeddable
-public class DireccionInmueble extends DireccionUsuario {
+@MappedSuperclass
+public class DireccionInmueble {
+	private DireccionUsuario base;
 	private String numero;
 	private String piso;
 	private String puerta;
@@ -14,7 +15,7 @@ public class DireccionInmueble extends DireccionUsuario {
 
 	public DireccionInmueble(TipoCalle tipoCalle, String calle, String numero, String piso,
 			String puerta, String ciudad, String estado, String codigoPostal, String pais) {
-		super(tipoCalle, calle, ciudad, estado, codigoPostal, pais);
+		this.base = new DireccionUsuario(tipoCalle, calle, ciudad, estado, codigoPostal, pais);
 		this.numero = numero;
 		if (piso != null) {
 			this.piso = piso;
@@ -27,6 +28,14 @@ public class DireccionInmueble extends DireccionUsuario {
 		} else {
 			this.puerta = "";
 		}
+	}
+
+	public DireccionUsuario getBase() {
+		return base;
+	}
+
+	public void setBase(DireccionUsuario base) {
+		this.base = base;
 	}
 
 	public String getNumero() {
