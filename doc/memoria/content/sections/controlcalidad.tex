@@ -1,0 +1,23 @@
+\section{Gestión de Calidad}
+
+El objetivo de la gestión de la calidad es garantizar que la funcionalidad del sistema es la correcta para reducir la aparición de errores.
+
+La estrategia de testing que se va a adoptar es realizar las pruebas al terminar una funcionalidad para poder validarla y completar la funcionalidad correctamente. Para ello en el kanban se moverá la issue a la sección de "En revisión", si los tests salen exitosos entonces se completará la funcionalidad,  si no se vuelve a poner en la sección de "En progreso" para corregirla y completarla.
+
+\subsection{Pruebas}
+
+\subsubsection{Pruebas de aceptación}
+
+Estas pruebas coinciden con que todos los requisitos o historias de usuario se satisfagan correctamente. Esto se comprobará al finalizar una funcionalidad y en la entrega de la aplicación.
+
+\subsubsection{Pruebas Unitarias}
+
+En las pruebas unitarias se analizará el funcionamiento del código con JUnit. Estás pruebas permitirán verificar el comportamiento de los componentes para detectar errores de forma temprana.
+
+\subsection{Análisis Estático}
+
+A su vez se realizará una análisis estático del código con SonarQube, esto con el objetivo de detectar code smells, duplicación de código y complejidad para evaluar y poder mejorar la calidad del software.
+
+\subsection{Métricas de Calidad}
+
+Para evaluar la calidad del software se va a utilizar una cobertura del 70\% del código, el número de errores detectados por las pruebas y los indicadores proporcionados por SonarQube.

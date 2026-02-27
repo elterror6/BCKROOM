@@ -1,0 +1,18 @@
+\section{Introducción}
+
+Se pretende desarrollar un sistema similar a Airbnb donde personas particulares pueden reservar alojamientos de propietarios particulares. Tanto los inquilinos como propietarios deben registrarse previamente para utilizar el sistema.
+\begin{itemize}
+    \item Los propietarios (una vez logeados) pueden dar de alta propiedades (viviendas completas o habitaciones individuales) ofertándolas para ser alquiladas. Los propietarios marcan si desean que los usuarios realicen reservas directas, o guardarse el derecho de confirmar o no las solicitudes de reserva. 
+
+    \item Los usuarios pueden primero buscar alojamiento (destino, fechas, tipo de inmueble, etc.) para examinar las opciones de alquiler. Excepcionalmente también pueden aplicar filtros avanzados para, por ejemplo: ver aquellos inmuebles con posibilidad de reserva inmediata; seleccionar filtros para ciertas comodidades; o seleccionar política de cancelación de reserva.
+
+    \item Para realizar la búsqueda de inmuebles no es necesario estar logeado, pero los usuarios registrados pueden agregar algunas propiedades a su lista de deseo.
+
+    \item Los inquilinos logeados, una vez han seleccionado el inmueble a alquilar, pueden completar la reserva. Si la propiedad permite reserva inmediata se puede completar el pago directamente (vía tarjeta de crédito, débito o paypal).
+
+    \item Si la propiedad o inmueble no permite reserva inmediata se hace una solicitud de reserva (completando también en este momento el pago). La solicitud de reserva es notificada al propietario quién puede confirmar o no la reserva. Si la confirmación es positiva, esto se le notifica al inquilino. Si la solicitud es denegada, el sistema devuelve el dinero al inquilino y es igualmente notificado al cliente. 
+\end{itemize}
+
+En este documento se describirá todo lo necesario para poder desarrollar la aplicación web llamada Bckroom. El documento contendrá las historias de usuario, arquitectura y diseños de la aplicación, un control de configuración y control de la calidad.
+
+Para este proyecto se realizará con la metología ágil SCRUM. Los sprints tendrán una duración de 3 semanas, las reuniones semanales se realizarán los viernes y las reuniones daily tendrán una duración máxima de 15 minutos. También se realizarán reuniones al finalizar cada sprint de una duración máxima de 2 horas y 30 minutos y mínima de 30 minutos en la que se analizará las funcionalidades implementadas, los problemas surgidos con las funcionalidades y comentar el retraso de las funcionalidades, si se producen.
