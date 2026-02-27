@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import es.uclm.bckroom.business.domain.Direccion;
+import es.uclm.bckroom.business.domain.DireccionInmueble;
 import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Propietario;
 import es.uclm.bckroom.business.domain.Usuario;
@@ -32,7 +32,7 @@ public class GestorInmuebles {
 	    }
 	    
 	    Inmueble inmueble = new Inmueble();
-	    inmueble.setDireccion(new Direccion());
+	    inmueble.setDireccion(new DireccionInmueble());
 	    
 		model.addAttribute("inmueble", inmueble);
 		return "propietario/alta-inmueble";
