@@ -43,12 +43,23 @@ input {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
+select {
+	background-color: #fff6e6;
+		border-color: #472d00;
+		border-style: solid;
+		border-radius: 5px;
+		border-width: 2px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+}
 label {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	font-weight: bold;
 }
-
+p {
+	font-size: 3px;
+}
 button {
 	background-color: #ffe5b8;
 	border-color: #472d00;
@@ -58,6 +69,7 @@ button {
 		padding-top: 5px;
 		padding-bottom: 5px;
 	margin: 5px;
+	font-size: 8px;
 }
 .form-div {
   padding-left: 10px;
@@ -76,4 +88,10 @@ button {
     gap: 20px;                       /* Espacio entre columnas y filas */
     max-width: 600px;                /* Para centrar el formulario */
     margin: 0 auto;
+}
+
+.form-buttons {
+    grid-column: 1 / -1; /* Ocupa desde la columna 1 hasta la última */
+    justify-self: center; /* Opcional: centra los botones */
+    margin-top: 20px;     /* Espacio sobre los botones */
 }

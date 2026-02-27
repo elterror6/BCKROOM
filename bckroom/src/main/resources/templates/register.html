@@ -10,42 +10,52 @@
 			<h1>Registro de Usuario</h1>
 			<form action="#" th:action="@{/register}" th:object="${usuario}" method="post" class="form-grid">
 				<div class="form-section">
-					<label for="usrnm">Nombre de Usuario<br></label>
-					<input type="text" th:field="*{username}" id="usrnm"/>
+					<label for="usrnm">Nombre de Usuario*<br></label>
+					<input type="text" th:field="*{username}" id="usrnm" required/>
 					<br>
-					<label for="nm">Nombre<br></label>
-					<input type="text" th:field="*{nombre}" id="nm"/>
+					<label for="nm">Nombre*<br></label>
+					<input type="text" th:field="*{nombre}" id="nm"/ required>
 					<br>
-					<label for="1sm">Primer Apellido<br></label>
-					<input type="text" th:field="*{primerApellido}" id="1sm"/>
+					<label for="1sm">Primer Apellido*<br></label>
+					<input type="text" th:field="*{primerApellido}" id="1sm" required/>
 					<br>
-					<label for="2sm">Segundo Apellido<br></label>
-					<input type="text" th:field="*{segundoApellido}" id="2sm"/>
+					<label for="2sm">Segundo Apellido*<br></label>
+					<input type="text" th:field="*{segundoApellido}" id="2sm" required/>
 					<br>
-					<label for="psswd">Contraseña<br></label>
-					<input type="password" th:field="*{passwd}" id="psswd"/>
+					<label for="psswd">Contraseña*<br></label>
+					<input type="password" th:field="*{passwd}" id="psswd" required/>
 					<br>
-					<button type="submit" name="tipo" value="inquilino">Registrarse</button>
 				</div>
 				<div class="form-section">
-					<label for="str">Calle<br></label>
-					<input type="text" th:field="*{direccion.calle}" id="str"/>
+					<label for="strt">Tipo de Calle<br></label>
+					<select id="strt" th:field="*{direccion.tipoCalle}">
+						<option th:each="tipo : ${tiposCalle}"
+						            th:value="${tipo}"
+						            th:text="${tipo}">
+						</option>
+					</select>
 					<br>
-					<label for="ct">Ciudad<br></label>
-					<input type="text" th:field="*{direccion.ciudad}" id="ct"/>
+					<label for="str">Nombre de la Calle*<br></label>
+					<input type="text" th:field="*{direccion.calle}" id="str" required/>
 					<br>
-					<label for="prvc">Provincia<br></label>
-					<input type="text" th:field="*{direccion.estado}" id="prvc"/>
+					<label for="ct">Ciudad*<br></label>
+					<input type="text" th:field="*{direccion.ciudad}" id="ct" required/>
 					<br>
-					<label for="cp">Código Postal<br></label>
-					<input type="text" th:field="*{direccion.codigoPostal}" id="cp"/>
+					<label for="prvc">Provincia*<br></label>
+					<input type="text" th:field="*{direccion.estado}" id="prvc" required/>
 					<br>
-					<label for="p">País<br></label>
-					<input type="text" th:field="*{direccion.pais}" id="p"/>
+					<label for="cp">Código Postal*<br></label>
+					<input type="text" th:field="*{direccion.codigoPostal}" id="cp" required/>
 					<br>
-					<button type="submit" name="tipo" value="propietario">Registrarse como Propietario</button>
+					<label for="p">País*<br></label>
+					<input type="text" th:field="*{direccion.pais}" id="p" required/>
+					<br>
 				</div>
-				
+				<div class="form-buttons">
+					<button type="submit" name="tipo" value="inquilino">Registrarse</button><br>
+					<p>Tienes propiedades que quieres ofertar:</p>
+					<button type="submit" name="tipo" value="propietario">Registrarse<br>como Propietario</button>
+				</div>
 			</form>
 		</div>
 	</body>

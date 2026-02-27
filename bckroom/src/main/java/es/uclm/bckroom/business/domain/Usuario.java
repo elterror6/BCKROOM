@@ -39,7 +39,7 @@ public class Usuario {
 	private String segundoApellido;
 	
 	@Embedded
-	private Direccion direccion;
+	private DireccionUsuario direccion;
 	
 	
 
@@ -57,7 +57,7 @@ public class Usuario {
 	}
 
 	public Usuario(String username, String passwd, String nombre, String primerApellido,
-			String segundoApellido, Direccion direccion) {
+			String segundoApellido, DireccionUsuario direccion) {
 		super();
 		this.username = username;
 		this.passwd = passwd;
@@ -99,11 +99,11 @@ public class Usuario {
 		this.segundoApellido = segundoApellido;
 	}
 
-	public Direccion getDireccion() {
+	public DireccionUsuario getDireccion() {
 		return direccion;
 	}
 
-	public void setDireccion(Direccion direccion) {
+	public void setDireccion(DireccionUsuario direccion) {
 		this.direccion = direccion;
 	}
 	
