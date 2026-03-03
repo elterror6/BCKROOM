@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<htlm xmlns:th = "https://www.thymeleaf.org">
+	<head>
+		<link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body class="search-body">
+		<header>
+			<div class="logo"><a href="/">BCKROOM</a></div>
+			<nav class="searchbar">
+				<form action="/search" method="get" class="search-bar">
+
+				    <!-- Ciudad -->
+				    <input type="text" name="ciudad" placeholder="Ciudad"
+				           th:value="${ciudad}">
+
+				    <!-- Precio mínimo -->
+				    <input type="number" name="precioMin" placeholder="Precio mínimo"
+				           th:value="${precioMin}">
+
+				    <!-- Precio máximo -->
+				    <input type="number" name="precioMax" placeholder="Precio máximo"
+				           th:value="${precioMax}">
+
+				    <button type="submit">Buscar</button>
+				</form>
+			</nav>
+			<nav class="user-auth">
+				<!-- Si hay usuario en sesión -->
+		        <span th:if="${usuario != null}">
+		            <span th:text="'Hola, ' + ${usuario.nombre}"></span>
+		            <a href="/logout">Cerrar sesión</a>
+		            <a href="/profile">Mi perfil</a>
+		        </span>
+
+		        <!-- Si no hay usuario -->
+		        <span th:if="${usuario == null}">
+					<button onclick="location.href='/login'">Iniciar Sesión</button>
+					<button onclick="location.href='/registro'">Registrarse</button>
+		        </span>
+			</nav>
+		</header>
+	</body>
+</html>
