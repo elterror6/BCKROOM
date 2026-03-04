@@ -61,5 +61,11 @@ public class DireccionInmueble {
 	public void setPuerta(String puerta) {
 		this.puerta = puerta;
 	}
+
+	@Override
+	public String toString() {
+		return base.getTipoCalle() +" "+ base.getCalle() +", "+numero ;
+	}
+	
 	
 }

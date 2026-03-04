@@ -41,5 +41,12 @@
 		        </span>
 			</nav>
 		</header>
+		<div class="resultados">
+		    <div class="card-inmueble" th:each="inmueble : ${resultados}">
+		        <h3 th:text="${inmueble.direccion}"></h3>
+		        <p th:text="${inmueble.direccion.base.ciudad}"></p>
+		        <p><strong th:text="${inmueble.precioNoche} + ' €'"></strong></p>
+		    </div>
+		</div>
 	</body>
 </html>
