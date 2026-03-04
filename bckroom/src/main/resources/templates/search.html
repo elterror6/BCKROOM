@@ -7,7 +7,7 @@
 	</head>
 	<body class="search-body">
 		<header>
-			<div class="logo"><a href="/">BCKROOM</a></div>
+			<div class="logo"><a href="/"><h1>BCKROOM</h1></a></div>
 			<nav class="searchbar">
 				<form action="/search" method="get" class="search-bar">
 
@@ -44,8 +44,8 @@
 		<div class="resultados">
 		    <div class="card-inmueble" th:each="inmueble : ${resultados}">
 		        <h3 th:text="${inmueble.direccion}"></h3>
-		        <p th:text="${inmueble.direccion.base.ciudad}"></p>
-		        <p><strong th:text="${inmueble.precioNoche} + ' €'"></strong></p>
+		        <h5 th:text="${inmueble.direccion.base.ciudad}+', '+${inmueble.direccion.base.estado}"></h5>
+		        <h5><strong th:text="${inmueble.precioNoche} + ' €'"></strong></h5>
 		    </div>
 		</div>
 	</body>
