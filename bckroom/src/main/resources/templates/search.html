@@ -15,7 +15,7 @@
 				    <input type="text" name="ciudad" placeholder="Ciudad"
 				           th:value="${ciudad}">
 
-				    <!-- Precio mínimo -->
+				    <!-- Precio -->
 				    <input type="number" name="precioMin" placeholder="Precio mínimo"
 				           th:value="${precioMin}">
 
@@ -43,9 +43,15 @@
 		</header>
 		<div class="resultados">
 		    <div class="card-inmueble" th:each="inmueble : ${resultados}">
-		        <h3 th:text="${inmueble.direccion}"></h3>
-		        <h5 th:text="${inmueble.direccion.base.ciudad}+', '+${inmueble.direccion.base.estado}"></h5>
-		        <h5><strong th:text="${inmueble.precioNoche} + ' €'"></strong></h5>
+				<div class="inm-data">
+					<h3 th:text="${inmueble.direccion}"></h3>
+			        <h5 th:text="${inmueble.direccion.base.ciudad}+', '+${inmueble.direccion.base.estado}"></h5>
+			        <h5><strong th:text="${inmueble.precioNoche} + ' €'"></strong></h5>
+				</div>
+				<form th:action="@{/deseados/add}" method="post">
+				    <input type="hidden" name="inmuebleId" th:value="${inmueble.id}">
+				    <button type="submit">Añadir a deseados</button>
+				</form>
 		    </div>
 		</div>
 	</body>

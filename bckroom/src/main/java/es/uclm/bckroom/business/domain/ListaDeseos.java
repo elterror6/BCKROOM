@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 
 @Entity
@@ -23,8 +24,22 @@ public class ListaDeseos {
 		inverseJoinColumns = @JoinColumn(name = "inmueble_id")
 	)
 	private Set<Inmueble> inmueblesDeseados;
+	@OneToOne(mappedBy="listaDeseos")
+	private Inquilino inquilino;
 	public ListaDeseos() {
 		this.inmueblesDeseados = new HashSet<>();
 	}
-
+	public Set<Inmueble> getInmueblesDeseados() {
+		return inmueblesDeseados;
+	}
+	public void setInmueblesDeseados(Set<Inmueble> inmueblesDeseados) {
+		this.inmueblesDeseados = inmueblesDeseados;
+	}
+	public Inquilino getInquilino() {
+		return inquilino;
+	}
+	public void setInquilino(Inquilino inquilino) {
+		this.inquilino = inquilino;
+	}
+	
 }
