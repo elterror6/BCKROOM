@@ -70,7 +70,7 @@ public class GestorUsuarios implements IGestorUsuarios{
 			if(usuarioIniciarSesion.checkPasswd(usuario.getPasswd())) {
 				session.setAttribute("usuarioLogueado", usuarioIniciarSesion);
 				if(usuarioIniciarSesion instanceof Inquilino) {
-					return "inquilino/home";
+					return "search";
 				} else {
 					Propietario usuarioPropietario = (Propietario) usuarioIniciarSesion;
 					List<Inmueble> inmueblesPropietario = usuarioPropietario.getInmuebles();

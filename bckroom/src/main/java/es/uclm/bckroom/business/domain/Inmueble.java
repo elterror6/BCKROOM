@@ -1,5 +1,7 @@
 package es.uclm.bckroom.business.domain;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -54,4 +56,26 @@ public class Inmueble {
 	public void setPropietario(Propietario propietario) {
 		this.propietario = propietario;
 	}
+	
+	public Long getId() {
+		return id;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(direccion, id, precioNoche, propietario);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Inmueble other = (Inmueble) obj;
+		return Objects.equals(direccion, other.direccion) && Objects.equals(id, other.id)
+				&& Double.doubleToLongBits(precioNoche) == Double.doubleToLongBits(other.precioNoche)
+				&& Objects.equals(propietario, other.propietario);
+	}
+	
 }

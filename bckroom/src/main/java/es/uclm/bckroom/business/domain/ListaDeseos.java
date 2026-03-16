@@ -29,17 +29,30 @@ public class ListaDeseos {
 	public ListaDeseos() {
 		this.inmueblesDeseados = new HashSet<>();
 	}
-	public Set<Inmueble> getInmueblesDeseados() {
-		return inmueblesDeseados;
-	}
 	public void setInmueblesDeseados(Set<Inmueble> inmueblesDeseados) {
 		this.inmueblesDeseados = inmueblesDeseados;
+	}
+	
+	public Set<Inmueble> getInmueblesDeseados() {
+		return inmueblesDeseados;
 	}
 	public Inquilino getInquilino() {
 		return inquilino;
 	}
-	public void setInquilino(Inquilino inquilino) {
-		this.inquilino = inquilino;
+	public boolean addInmueble(Inmueble inmueble) {
+		if (this.inmueblesDeseados.contains(inmueble)) {
+			return false;
+		} else {
+			this.inmueblesDeseados.add(inmueble);
+		}
+		return true;
 	}
-	
+	public boolean delInmueble(Inmueble inmueble) {
+		if (!this.inmueblesDeseados.contains(inmueble)) {
+			return false;
+		} else {
+			this.inmueblesDeseados.remove(inmueble);
+		}
+		return true;
+	}
 }
