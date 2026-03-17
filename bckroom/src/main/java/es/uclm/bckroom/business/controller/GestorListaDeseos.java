@@ -30,23 +30,22 @@ public class GestorListaDeseos {
 	private InmuebleDAO inmuebleDAO;
 	
 	@PostMapping("/deseados/toggle/{id}")
-	public String toggleDeseado(@PathVariable Long id, Principal principal) {
-		if (principal == null) {
+	public String toggleDeseado(@PathVariable Long id, HttpSession session) {
+	    Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+	    if (!(usuario instanceof Inquilino)) {
 	        return "redirect:/login";
 	    }
-	    String username = principal.getName();
+	    Inquilino inquilino = (Inquilino) usuario;
 
-	    Inquilino inquilino = inquilinoDAO.findByUsername(username);
 	    Inmueble inmueble = inmuebleDAO.findById(id).orElseThrow();
-	    
-	    
-	    ListaDeseos lista = inquilino.getListaDeseos();
 
-	    if(lista.getInmueblesDeseados().contains(inmueble)){
-	        lista.delInmueble(inmueble);
-	    } else {
-	        lista.addInmueble(inmueble);
+	    ListaDeseos lista = listaDeseosDAO.findByInquilino(inquilino);
+	    if (lista == null) {
+	        lista = new ListaDeseos();
+	        lista.setInquilino(inquilino);
 	    }
+
+	    lista.toggleInmueble(inmueble);
 
 	    listaDeseosDAO.save(lista);
 

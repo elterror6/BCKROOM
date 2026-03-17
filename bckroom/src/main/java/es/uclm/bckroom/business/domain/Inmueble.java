@@ -61,21 +61,16 @@ public class Inmueble {
 		return id;
 	}
 	@Override
-	public int hashCode() {
-		return Objects.hash(direccion, id, precioNoche, propietario);
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+	    Inmueble inmueble = (Inmueble) o;
+	    return id != null && id.equals(inmueble.id);
 	}
+
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Inmueble other = (Inmueble) obj;
-		return Objects.equals(direccion, other.direccion) && Objects.equals(id, other.id)
-				&& Double.doubleToLongBits(precioNoche) == Double.doubleToLongBits(other.precioNoche)
-				&& Objects.equals(propietario, other.propietario);
+	public int hashCode() {
+	    return id != null ? id.hashCode() : 0;
 	}
 	
 }

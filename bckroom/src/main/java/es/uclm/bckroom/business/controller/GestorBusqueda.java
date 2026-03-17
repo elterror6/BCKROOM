@@ -1,6 +1,5 @@
 package es.uclm.bckroom.business.controller;
 
-import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +17,7 @@ import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.persistence.InmuebleDAO;
 import es.uclm.bckroom.persistence.InquilinoDAO;
 import es.uclm.bckroom.persistence.ListaDeseosDAO;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class GestorBusqueda {
@@ -31,27 +31,43 @@ public class GestorBusqueda {
 	
 	@GetMapping("/search")
 	public String searchGet(@RequestParam(required = false) String ciudad,
-	        @RequestParam(required = false) Double precioMin,
-	        @RequestParam(required = false) Double precioMax,
-	        Model model,
-	        Principal principal) {
-		Inquilino inquilino = inquilinoDAO.findByUsername(principal.getName());
-		model.addAttribute("usuario", inquilino);
-		List<Inmueble> resultados = inmuebleDAO.buscarPorCiudadPrecioMinMax(ciudad, precioMin, precioMax);
-	
-		model.addAttribute("resultados", resultados);
-		model.addAttribute("ciudad", ciudad);
+	                       @RequestParam(required = false) Double precioMin,
+	                       @RequestParam(required = false) Double precioMax,
+	                       Model model,
+	                       HttpSession session) {
+	    Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+
+	    if (usuario == null) {
+	        return "redirect:/login";
+	    }
+
+	    Inquilino inquilino = null;
+	    if (usuario instanceof Inquilino) {
+	        inquilino = (Inquilino) usuario;
+	        model.addAttribute("inquilino", inquilino);
+	    }
+
+	    model.addAttribute("usuario", usuario);
+
+	    List<Inmueble> resultados = inmuebleDAO.buscarPorCiudadPrecioMinMax(ciudad, precioMin, precioMax);
+
+	    model.addAttribute("resultados", resultados);
+	    model.addAttribute("ciudad", ciudad);
 	    model.addAttribute("precioMin", precioMin);
 	    model.addAttribute("precioMax", precioMax);
 	    
+	    ListaDeseos listaDeseos = null;
 	    Set<Inmueble> deseados = new HashSet<>();
 
-        if (inquilino != null && inquilino.getListaDeseos() != null) {
-            deseados = inquilino.getListaDeseos().getInmueblesDeseados();
-        }
-
+	    if (inquilino != null) {
+	        listaDeseos = listaDeseosDAO.findByInquilino(inquilino);
+	        if (listaDeseos != null) {
+	            deseados = new HashSet<>(listaDeseos.getInmueblesDeseados());
+	        }
+	    }
 	    model.addAttribute("deseados", deseados);
-		
-		return "search";
+
+	    return "search";
 	}
 }
+	
