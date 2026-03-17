@@ -8,7 +8,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Inquilino extends Usuario {
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "lista_id")
+	@JoinColumn(name = "lista_deseos_id")
 	private ListaDeseos listaDeseos;
 	public Inquilino() {
 	}
