@@ -13,3 +13,7 @@ Para utilizarlo en local hay que seguir los siguientes pasos:
 
 ### Visualización en local
 Una vez realizado el proceso de instalación de LaTeX en local lo único que hay que hacer es la combinación de teclas ```Ctrl+Alt+B``` para hacer el build del código LaTeX y la combinación ```Ctrl+Alt+V``` para poder visualizar el PDF resultante en pantalla dividida.
+
+## Despliegue del Sistema
+
+Para poder desplegar el sistema debes moverte a la carpeta donde este el archivo ```pom.xml``` y por línea de comandos realizar el comando ```mvn spring-boot:run```.
