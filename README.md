@@ -18,6 +18,14 @@ Una vez realizado el proceso de instalación de LaTeX en local lo único que hay
 
 Para poder desplegar el sistema debes moverte a la carpeta donde este el archivo ```pom.xml``` y por línea de comandos realizar el comando ```mvn spring-boot:run```.
 
+## Tecnologías Usadas
+
+Las tecnologías usadas en este proyecto son las siguientes:
+
+ - Apache Maven (v3.9.11).
+ - Spring Boot.
+ - Apache Derby.
+
 ## Diseño de la aplicación
 
 En esta sección se indicarán y enseñarán los distintos tipos de diseños utilizados en el proyecto para facilitar la compresión del código y la relación de los distintos componentes en distintos niveles.
@@ -153,3 +161,64 @@ direction BT
     DireccionInmueble "1" --> "1" DireccionUsuario : direccionBase
     DireccionUsuario "1" --> "1" TipoCalle : tipoCalle
 	Disponibilidad "0,*" <-- "1" Inmueble: disponibilidad
+```
+### Diseño de la Base de Datos
+
+Para poder guardar datos persistentes en el sistema se va a utilizar una base de datos relacional, en el caso de este proyecto, al ser pequeño, se utilizará Apache Derby, y para controlar la persistencia y la creación de tablas y sus columnas se utilizará Spring JPA. Para poder saber que se guarda y como es necesario diseñar la base de datos y las relaciones entre las distintas tablas de esta.
+
+```mermaid
+---
+config:
+  layout: dagre
+  look: neo
+---
+erDiagram
+	direction TB
+	USUARIO {
+		Long id PK ""  
+		string username  ""  
+		string nombre  ""  
+		string primerApellido  ""  
+		string segundoApellido  ""  
+		string passwd  ""  
+		Direccion direccion  ""  
+	}
+
+	INQUILINO {
+		Long id_usuario FK ""  
+		Long id_lista_deseos FK ""  
+	}
+
+	PROPIETARIO {
+		Long id_usuario FK ""  
+	}
+
+	INMUEBLE {
+		Long id PK ""  
+		Long id_propietario FK ""  
+		DireccionInmueble direccion  ""  
+		double precioNoche  ""  
+	}
+
+	LISTA_DESEOS {
+		PK1 id  ""  
+		FK1 id_inquilino  ""  
+	}
+
+	DISPONIBILIDAD {
+		Long id PK
+		Long id_inmueble FK
+		Date fechaInicio
+		Date fechaFin
+		double precio
+
+	}
+
+	USUARIO||--||INQUILINO:"es"
+	USUARIO||--||PROPIETARIO:"es"
+	PROPIETARIO||--|{INMUEBLE:"tiene"
+	INQUILINO||--||LISTA_DESEOS:"tiene"
+	LISTA_DESEOS}o--o{INMUEBLE:"contiene"
+	INMUEBLE ||--o{ DISPONIBILIDAD: "tiene"
+	
+```
