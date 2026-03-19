@@ -39,4 +39,5 @@ public class Propietario extends Usuario {
 		inmueble.setPropietario(this);
 		this.inmuebles.add(inmueble);
 	}
+
 }

@@ -1,5 +1,9 @@
 package es.uclm.bckroom.business.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,5 +57,36 @@ public class GestorInmuebles {
 	@ModelAttribute("tiposCalle")
 	public TipoCalle[] tiposCalle() {
 	    return TipoCalle.values();
+	}
+	
+	@GetMapping("/propietario/home")
+	public String homePropietario(Model model, HttpSession session) {
+
+	    Propietario propietario = (Propietario) session.getAttribute("usuario");
+
+	    if (propietario == null) {
+	        return "redirect:/login";
+	    }
+
+	    List<Inmueble> todos =
+	        inmuebleDAO.findByPropietarioId(propietario.getId());
+
+	    Date hoy = new Date();
+
+	    List<Inmueble> disponibles = new ArrayList<>();
+	    List<Inmueble> noDisponibles = new ArrayList<>();
+
+	    for (Inmueble i : todos) {
+	        if (i.disponible(hoy, hoy)) {
+	            disponibles.add(i);
+	        } else {
+	            noDisponibles.add(i);
+	        }
+	    }
+
+	    model.addAttribute("disponibles", disponibles);
+	    model.addAttribute("noDisponibles", noDisponibles);
+
+	    return "/propietario/home";
 	}
 }

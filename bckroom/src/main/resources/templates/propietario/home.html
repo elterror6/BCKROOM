@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<htlm xmlns:th = "https://www.thymeleaf.org">
+	<head>
+		<link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body>
+		<header>
+			<div class="logo"><a href="/"><h1>BCKROOM</h1></a></div>
+			<p>Dashboard</p>
+		</header>
+		<div class="dashboard">
+			<h2><span th:text="'Hola, ' + ${usuario.nombre}"></span></h2>
+			<div class="inm-disp-container">
+				<h2>Inmuebles Disponibles</h2>
+				<div class="disp" th:each="inmueble : ${disponibles}">
+					<div class="inm-card">
+						<h3 th:text="${inmueble.direccion}"></h3>
+						<h4 th:text="${${inmueble.direccion.base.ciudad}+', '+${inmueble.direccion.base.estado}}"></h4>
+					</div>
+				</div>
+			</div>
+			<div class="inm-no-disp-container">
+				<h2>Podrías querer hacer disponibles estos inmuebles</h2>
+				<div class="disp" th.each="inmueble : ${noDisponibles}">
+					<div class="inm-card">
+						<h3 th:text="${inmueble.direccion}"></h3>
+						<h4 th:text="${${inmueble.direccion.base.ciudad}+', '+${inmueble.direccion.base.estado}}"></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
