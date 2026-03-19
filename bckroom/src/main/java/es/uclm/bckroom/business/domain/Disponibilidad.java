@@ -4,9 +4,26 @@ import java.util.Date;
 
 public class Disponibilidad {
 	private Long id;
+	private Inmueble inmueble;
 	private Date fechaInicio;
 	private Date fechaFin;
 	private double precio;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Inmueble getInmueble() {
+		return inmueble;
+	}
+
+	public void setInmueble(Inmueble inmueble) {
+		this.inmueble = inmueble;
+	}
+
 	private boolean directa;
 	
 	public Disponibilidad() {
