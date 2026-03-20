@@ -3,6 +3,7 @@ package es.uclm.bckroom.business.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -131,6 +132,23 @@ public class GestorInmuebles {
 	    disponibilidadDAO.save(disponibilidad);
 
 	    return "redirect:/propietario/home";
+	}
+	@GetMapping("/inmueble/{id}/check-availabilities")
+	public String checkDisponibilidadesFromInmueble(@PathVariable Long id, Model model, HttpSession session) {
+		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+
+	    if (usuario == null || !(usuario instanceof Propietario)) {
+	        return "redirect:/login";
+	    }
+	    
+	    Inmueble inmueble = inmuebleDAO.findById(id).orElse(null);
+	    
+	    Set<Disponibilidad> disponibilidades = inmueble.getDisponibilidades();
+	    
+	    model.addAttribute("disponibilidades",disponibilidades);
+	    
+	    
+		return "/inmueble/"+id+"/check-availabilities";
 	}
 	
 }
