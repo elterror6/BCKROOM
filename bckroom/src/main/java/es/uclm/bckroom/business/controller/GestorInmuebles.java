@@ -107,16 +107,16 @@ public class GestorInmuebles {
 	    return "redirect:/inmueble/"+id_inmueble+"/add_availability";
 	}
 	
-	@GetMapping("/inmueble/{id}/add_availability")
+	@GetMapping("/inmueble/{id}/add-availability")
 	public String getAddAvailability(@PathVariable Long id, Model model) {
 
 	    Inmueble inmueble = inmuebleDAO.findById(id).orElse(null);
 
 	    model.addAttribute("inmueble", inmueble);
 
-	    return "add_availability";
+	    return "add-availability";
 	}
-	@PostMapping("/inmueble/{id}/add_availability")
+	@PostMapping("/inmueble/{id}/add-availability")
 	public String postAddAvailability(@PathVariable Long id, @ModelAttribute Disponibilidad disponibilidad, HttpSession session ) {
 		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
