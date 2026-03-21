@@ -24,7 +24,7 @@ import es.uclm.bckroom.persistence.InmuebleDAO;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class GestorInmuebles {
+public class GestorInmuebles implements IGestorInmuebles{
 	@Autowired
 	private InmuebleDAO inmuebleDAO;
 	@Autowired
@@ -97,15 +97,21 @@ public class GestorInmuebles {
 	    return "/propietario/home";
 	}
 	
-	@PostMapping("/home")
-	public String postHome(@RequestParam Long id_inmueble, HttpSession session, Model model) {
+	@PostMapping("/propietario/home")
+	public String postHome(@RequestParam Long id_inmueble, HttpSession session, Model model, @RequestParam String accion) {
 		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
 	    if (usuario == null || !(usuario instanceof Propietario)) {
 	        return "redirect:/login";
 	    }
 	    
-	    return "redirect:/inmueble/"+id_inmueble+"/add_availability";
+	    if (accion.equals(add)) {
+	    	return "redirect:/inmueble/"+id_inmueble+"/add-availability";
+	    } else if (accion.equals(check)){
+	    	return "redirect:/inmueble/"+id_inmueble+"/check-availability";
+	    }
+	    
+	    return "/propietario/home";
 	}
 	
 	@GetMapping("/inmueble/{id}/add-availability")
@@ -133,7 +139,7 @@ public class GestorInmuebles {
 
 	    return "redirect:/propietario/home";
 	}
-	@GetMapping("/inmueble/{id}/check-availabilities")
+	@GetMapping("/inmueble/{id}/check-availability")
 	public String checkDisponibilidadesFromInmueble(@PathVariable Long id, Model model, HttpSession session) {
 		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
 
@@ -148,7 +154,7 @@ public class GestorInmuebles {
 	    model.addAttribute("disponibilidades",disponibilidades);
 	    
 	    
-		return "/inmueble/"+id+"/check-availabilities";
+		return "/inmueble/"+id+"/check-availability";
 	}
 	
 }

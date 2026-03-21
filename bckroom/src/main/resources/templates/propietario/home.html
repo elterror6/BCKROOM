@@ -31,7 +31,8 @@
 						<h3 th:text="${inmueble.direccion}"></h3>
 						<h4 th:text="${${inmueble.direccion.base.ciudad}+', '+${inmueble.direccion.base.estado}}"></h4>
 						<form th:action="@{/inmueble/{id}/add_availability(id=${inmueble.id})}" method="post>
-							<button type="submit">Añadir disponibilidad</button>
+							<button type="submit" name="accion" value="add">Añadir disponibilidad</button>
+							<button type="submit" name="accion" value="check">Ver disponibilidad</button>
 						</form>
 					</div>
 				</div>
