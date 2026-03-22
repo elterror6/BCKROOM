@@ -1,6 +1,8 @@
 package es.uclm.bckroom.business.domain;
 
+import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -10,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Inmueble {
@@ -24,6 +27,8 @@ public class Inmueble {
 	private DireccionInmueble direccion;
 	@Column
 	private double precioNoche;
+	@OneToMany
+	private Set<Disponibilidad> disponibilidades;
 	
 	public Inmueble() {
 	    super();
@@ -59,6 +64,23 @@ public class Inmueble {
 	
 	public Long getId() {
 		return id;
+	}
+	
+	public boolean disponible(Date fechaInicio, Date fechaFin) {
+		if (this.disponibilidades.size()==0) {
+			return false;
+		}
+		for (Disponibilidad disponibilidad: this.disponibilidades) {
+			if (disponibilidad.fechasDentroDeRango(fechaInicio, fechaFin)) return true;
+		}
+		return false;
+	}
+	
+	public Set<Disponibilidad> getDisponibilidades() {
+		return disponibilidades;
+	}
+	public void setDisponibilidades(Set<Disponibilidad> disponibilidades) {
+		this.disponibilidades = disponibilidades;
 	}
 	@Override
 	public boolean equals(Object o) {

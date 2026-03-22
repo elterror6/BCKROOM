@@ -116,5 +116,9 @@ public class Usuario {
 	public String getPasswd() {
 		return this.passwd;
 	}
+
+	public Object getId() {
+		return this.id;
+	}
 	
 }

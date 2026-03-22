@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<htlm xmlns:th = "https://www.thymeleaf.org">
+	<head>
+		<link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body>
+		<div th:each="disponibilidad : ${disponibilidades}">
+			<p th:text="${disponibilidad.fechaInicio} +' - '+ ${disponibilidad.fechaFin}"></p>
+		</div>
+	</body>
+</html>

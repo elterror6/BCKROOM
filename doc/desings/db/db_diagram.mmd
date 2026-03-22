@@ -1,0 +1,54 @@
+---
+config:
+  layout: dagre
+  look: neo
+---
+erDiagram
+	direction TB
+	USUARIO {
+		Long id PK ""  
+		string username  ""  
+		string nombre  ""  
+		string primerApellido  ""  
+		string segundoApellido  ""  
+		string passwd  ""  
+		Direccion direccion  ""  
+	}
+
+	INQUILINO {
+		Long id_usuario FK ""  
+		Long id_lista_deseos FK ""  
+	}
+
+	PROPIETARIO {
+		Long id_usuario FK ""  
+	}
+
+	INMUEBLE {
+		Long id PK ""  
+		Long id_propietario FK ""  
+		DireccionInmueble direccion  ""  
+		double precioNoche  ""  
+	}
+
+	LISTA_DESEOS {
+		PK1 id  ""  
+		FK1 id_inquilino  ""  
+	}
+
+	DISPONIBILIDAD {
+		Long id PK
+		Long id_inmueble FK
+		Date fechaInicio
+		Date fechaFin
+		double precio
+
+	}
+
+	USUARIO||--||INQUILINO:"es"
+	USUARIO||--||PROPIETARIO:"es"
+	PROPIETARIO||--|{INMUEBLE:"tiene"
+	INQUILINO||--||LISTA_DESEOS:"tiene"
+	LISTA_DESEOS}o--o{INMUEBLE:"contiene"
+	INMUEBLE ||--o{ DISPONIBILIDAD: "tiene"
+	
