@@ -25,6 +25,7 @@ Las tecnologías usadas en este proyecto son las siguientes:
  - Apache Maven (v3.9.11).
  - Spring Boot.
  - Apache Derby.
+ - Bootstrap (latest v5.3).
 
 ## Diseño de la aplicación
 
