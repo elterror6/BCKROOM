@@ -30,11 +30,14 @@ public class GestorListaDeseos {
 	private InmuebleDAO inmuebleDAO;
 	
 	@PostMapping("/deseados/toggle/{id}")
-	public String toggleDeseado(@PathVariable Long id, HttpSession session) {
+	@ResponseBody
+	public void toggleDeseado(@PathVariable Long id, HttpSession session) {
 	    Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+
 	    if (!(usuario instanceof Inquilino)) {
-	        return "redirect:/login";
+	        return;
 	    }
+
 	    Inquilino inquilino = (Inquilino) usuario;
 
 	    Inmueble inmueble = inmuebleDAO.findById(id).orElseThrow();
@@ -48,7 +51,5 @@ public class GestorListaDeseos {
 	    lista.toggleInmueble(inmueble);
 
 	    listaDeseosDAO.save(lista);
-
-	    return "redirect:/search";
 	}
 }
