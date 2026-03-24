@@ -8,6 +8,30 @@ public class Disponibilidad {
 	private Date fechaInicio;
 	private Date fechaFin;
 	private double precio;
+	private PoliticaCancelacion politicaCancelacion;
+	private boolean directa;
+	
+	public Disponibilidad() {
+		super();
+	}
+
+	public Disponibilidad(Date fechaInicio, Date fechaFin, double precio, boolean directa, PoliticaCancelacion politicaCancelacion) {
+		super();
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
+		this.precio = precio;
+		this.directa = directa;
+		this.politicaCancelacion = politicaCancelacion;
+	}
+	
+	public PoliticaCancelacion getPoliticaCancelacion() {
+		return politicaCancelacion;
+	}
+
+	public void setPoliticaCancelacion(PoliticaCancelacion politicaCancelacion) {
+		this.politicaCancelacion = politicaCancelacion;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -22,20 +46,6 @@ public class Disponibilidad {
 
 	public void setInmueble(Inmueble inmueble) {
 		this.inmueble = inmueble;
-	}
-
-	private boolean directa;
-	
-	public Disponibilidad() {
-		super();
-	}
-
-	public Disponibilidad(Date fechaInicio, Date fechaFin, double precio, boolean directa) {
-		super();
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
-		this.precio = precio;
-		this.directa = directa;
 	}
 
 	public Date getFechaInicio() {
