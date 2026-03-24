@@ -7,11 +7,11 @@ erDiagram
 	direction TB
 	USUARIO {
 		Long id PK ""  
-		string username  ""  
-		string nombre  ""  
-		string primerApellido  ""  
-		string segundoApellido  ""  
-		string passwd  ""  
+		varchar username  ""  
+		varchar nombre  ""  
+		varchar primerApellido  ""  
+		varchar segundoApellido  ""  
+		varchar passwd  ""  
 		Direccion direccion  ""  
 	}
 
@@ -32,8 +32,8 @@ erDiagram
 	}
 
 	LISTA_DESEOS {
-		PK1 id  ""  
-		FK1 id_inquilino  ""  
+		Long id PK ""  
+		Long id_inquilino FK ""  
 	}
 
 	DISPONIBILIDAD {
@@ -42,7 +42,7 @@ erDiagram
 		Date fechaInicio
 		Date fechaFin
 		double precio
-
+		varchar politica_cancelacion
 	}
 
 	USUARIO||--||INQUILINO:"es"

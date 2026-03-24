@@ -81,7 +81,7 @@ direction BT
 	    -Propietario propietario
 	    -DireccionInmueble direccion
 	    -Double precioNoche
-		-disponibilidad: List
+		-disponibilidades: List
 	    +Inmueble()
 	    +Inmueble(propietario: Propietario, direccion: DireccionInmueble, precioNoche: Double)
 	    +getters*()
@@ -144,6 +144,7 @@ direction BT
 		-fechaInicio: Date
 		-fechaFin: Date
 		-precio: double
+		-politicaCancelacion: PoliticaCancelacion
 		-inmueble: Inmueble
 		+Disponibilidad()
 		+Disponibilidad(fechaInicio: Date, fechaFin: Date, precio: double, inmueble: Inmueble)
@@ -151,17 +152,23 @@ direction BT
 		+setters*()
 		+fechasDentroDeRango(fechaInicio: Date, fechaFin: Date): boolean
 	}
-	
+	class PoliticaCancelacion {
+		<<enumeration>>
+		NO_REEMBOLSABLE
+		REEMBOLSABLE
+		REEMBOLSABLE_50_PER
+	}
     Inquilino --|> Usuario
     Propietario --|> Usuario
-    Propietario "1" --> "1,*" Inmueble : inmuebles
+    Propietario "1" *-- "1,*" Inmueble : inmuebles
     Inquilino "1" --> "1" ListaDeseos : listaDeseos
-    ListaDeseos "1" --> "0,*" Inmueble : inmuebles
+    ListaDeseos "1" o--> "0,*" Inmueble : inmuebles
     Usuario "1" --> "1" DireccionUsuario : direccion
-    Inmueble "1" --> "1" DireccionInmueble : direccion
+    Inmueble "1" <-- "1" DireccionInmueble : direccion
     DireccionInmueble "1" --> "1" DireccionUsuario : direccionBase
     DireccionUsuario "1" --> "1" TipoCalle : tipoCalle
-	Disponibilidad "0,*" <-- "1" Inmueble: disponibilidad
+	Disponibilidad "0,*" -- "1" Inmueble: disponibilidad
+	Disponibilidad "" --> "1" PoliticaCancelacion: politicaCancelacion
 ```
 ### Diseño de la Base de Datos
 
@@ -177,11 +184,11 @@ erDiagram
 	direction TB
 	USUARIO {
 		Long id PK ""  
-		string username  ""  
-		string nombre  ""  
-		string primerApellido  ""  
-		string segundoApellido  ""  
-		string passwd  ""  
+		varchar username  ""  
+		varchar nombre  ""  
+		varchar primerApellido  ""  
+		varchar segundoApellido  ""  
+		varchar passwd  ""  
 		Direccion direccion  ""  
 	}
 
@@ -202,8 +209,8 @@ erDiagram
 	}
 
 	LISTA_DESEOS {
-		PK1 id  ""  
-		FK1 id_inquilino  ""  
+		Long id PK ""  
+		Long id_inquilino FK ""  
 	}
 
 	DISPONIBILIDAD {
@@ -212,7 +219,7 @@ erDiagram
 		Date fechaInicio
 		Date fechaFin
 		double precio
-
+		varchar politica_cancelacion
 	}
 
 	USUARIO||--||INQUILINO:"es"
