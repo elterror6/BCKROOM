@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -19,16 +21,26 @@ public class Inmueble {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@ManyToOne
 	@JoinColumn(name = "propietario_id")
 	private Propietario propietario;
 	
 	@Embedded
 	private DireccionInmueble direccion;
+	
 	@Column
 	private double precioNoche;
-	@OneToMany
+	
+	@OneToMany(mappedBy = "inmueble", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Disponibilidad> disponibilidades;
+	
+	@JoinTable(
+		name = "comodidad_inmueble",
+		joinColumns = @JoinColumn(name = "inmueble_id"),
+		inverseJoinColumns = @JoinColumn(name = "comodidad_id")
+	)
+	private Set<Comodidad> comodidades;
 	
 	public Inmueble() {
 	    super();

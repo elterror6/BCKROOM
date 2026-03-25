@@ -2,26 +2,46 @@ package es.uclm.bckroom.business.domain;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Disponibilidad {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@ManyToOne
+    @JoinColumn(name = "inmueble_id")
 	private Inmueble inmueble;
+	@Embedded
 	private Date fechaInicio;
+	@Embedded
 	private Date fechaFin;
+	@Column
 	private double precio;
+	@Column
 	private PoliticaCancelacion politicaCancelacion;
+	@Column
 	private boolean directa;
 	
 	public Disponibilidad() {
 		super();
 	}
 
-	public Disponibilidad(Date fechaInicio, Date fechaFin, double precio, boolean directa, PoliticaCancelacion politicaCancelacion) {
+	public Disponibilidad(Date fechaInicio, Date fechaFin, double precio, boolean directa, PoliticaCancelacion politicaCancelacion, Inmueble inmueble) {
 		super();
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.precio = precio;
 		this.directa = directa;
 		this.politicaCancelacion = politicaCancelacion;
+		this.inmueble = inmueble;
 	}
 	
 	public PoliticaCancelacion getPoliticaCancelacion() {
