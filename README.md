@@ -82,6 +82,7 @@ direction BT
 	    -DireccionInmueble direccion
 	    -Double precioNoche
 		-disponibilidades: List
+		-comodidades: Set
 	    +Inmueble()
 	    +Inmueble(propietario: Propietario, direccion: DireccionInmueble, precioNoche: Double)
 	    +getters*()
@@ -158,17 +159,29 @@ direction BT
 		REEMBOLSABLE
 		REEMBOLSABLE_50_PER
 	}
+	class Comodidad {
+		id: Long
+		nombre: String
+		inmuebles: Set
+		getId(): Long
+		setId(id: Long): void
+		getNombre(): String
+		setNombre(String nombre): void
+		getInmuebles(): Set
+		setInmuebles(inmuebles: Set): void
+	}
     Inquilino --|> Usuario
     Propietario --|> Usuario
     Propietario "1" *-- "1,*" Inmueble : inmuebles
     Inquilino "1" --> "1" ListaDeseos : listaDeseos
     ListaDeseos "1" o--> "0,*" Inmueble : inmuebles
-    Usuario "1" --> "1" DireccionUsuario : direccion
-    Inmueble "1" <-- "1" DireccionInmueble : direccion
+    Usuario "1" *-- "1" DireccionUsuario : direccion
+    Inmueble "1" *-- "1" DireccionInmueble : direccion
     DireccionInmueble "1" --> "1" DireccionUsuario : direccionBase
     DireccionUsuario "1" --> "1" TipoCalle : tipoCalle
-	Disponibilidad "0,*" -- "1" Inmueble: disponibilidad
+	Disponibilidad "0,*" --* "1" Inmueble: disponibilidad
 	Disponibilidad "" --> "1" PoliticaCancelacion: politicaCancelacion
+	Inmueble "0,*" *--> "0,*" Comodidad: comodidades
 ```
 ### Diseño de la Base de Datos
 
@@ -183,7 +196,7 @@ config:
 erDiagram
 	direction TB
 	USUARIO {
-		Long id PK ""  
+		bigint id PK ""  
 		varchar username  ""  
 		varchar nombre  ""  
 		varchar primerApellido  ""  
@@ -193,40 +206,57 @@ erDiagram
 	}
 
 	INQUILINO {
-		Long id_usuario FK ""  
-		Long id_lista_deseos FK ""  
+		bigint id_usuario FK ""  
+		bigint id_lista_deseos FK ""  
 	}
 
 	PROPIETARIO {
-		Long id_usuario FK ""  
+		bigint id_usuario FK ""  
 	}
 
 	INMUEBLE {
-		Long id PK ""  
-		Long id_propietario FK ""  
+		bigint id PK ""  
+		bigint id_propietario FK ""  
 		DireccionInmueble direccion  ""  
 		double precioNoche  ""  
 	}
 
 	LISTA_DESEOS {
-		Long id PK ""  
-		Long id_inquilino FK ""  
+		bigint id PK ""  
+		bigint id_inquilino FK ""  
+	}
+
+	INMUEBLE_LISTA_DESEOS {
+		bigint id_lista_deseos FK
+		bigint id_inmueble FK
 	}
 
 	DISPONIBILIDAD {
-		Long id PK
-		Long id_inmueble FK
+		bigint id PK
+		bigint id_inmueble FK
 		Date fechaInicio
 		Date fechaFin
 		double precio
 		varchar politica_cancelacion
 	}
 
+	COMODIDAD {
+		bigint id PK
+		varchar nombre
+	}
+
+	INMUEBLE_COMODIDAD {
+		Long id_inmueble FK
+		Long id_comodidad FK
+	}
+
 	USUARIO||--||INQUILINO:"es"
 	USUARIO||--||PROPIETARIO:"es"
 	PROPIETARIO||--|{INMUEBLE:"tiene"
 	INQUILINO||--||LISTA_DESEOS:"tiene"
-	LISTA_DESEOS}o--o{INMUEBLE:"contiene"
+	LISTA_DESEOS ||--o{ INMUEBLE_LISTA_DESEOS: "contiene"
+	INMUEBLE ||--o{ INMUEBLE_LISTA_DESEOS: "contenido"
 	INMUEBLE ||--o{ DISPONIBILIDAD: "tiene"
-	
+	INMUEBLE ||--o{ INMUEBLE_COMODIDAD: "tiene"
+	INMUEBLE_COMODIDAD }o--|| COMODIDAD: "esta"
 ```

@@ -45,6 +45,16 @@ erDiagram
 		varchar politica_cancelacion
 	}
 
+	COMODIDAD {
+		Long id PK
+		varchar nombre
+	}
+
+	INMUEBLE_COMODIDAD {
+		Long id_inmueble PK FK
+		Long id_comodidad PK FK
+	}
+
 	USUARIO||--||INQUILINO:"es"
 	USUARIO||--||PROPIETARIO:"es"
 	PROPIETARIO||--|{INMUEBLE:"tiene"
