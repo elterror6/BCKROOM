@@ -24,6 +24,12 @@ public class Comodidad {
 	public Comodidad() {
 		super();
 	}
+	
+	public Comodidad(Long id, String nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+	}
 
 	public Comodidad(Long id, String nombre, Set<Inmueble> inmuebles) {
 		super();

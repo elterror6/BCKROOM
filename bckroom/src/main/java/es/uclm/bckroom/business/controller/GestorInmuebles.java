@@ -19,6 +19,7 @@ import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Propietario;
 import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.domain.Usuario;
+import es.uclm.bckroom.persistence.ComodidadDAO;
 import es.uclm.bckroom.persistence.DisponibilidadDAO;
 import es.uclm.bckroom.persistence.InmuebleDAO;
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +30,8 @@ public class GestorInmuebles implements IGestorInmuebles{
 	private InmuebleDAO inmuebleDAO;
 	@Autowired
 	private DisponibilidadDAO disponibilidadDAO;
+	@Autowired
+	private ComodidadDAO comodidadDAO;
 
 	@GetMapping("/propietario/alta-inmueble")
 	public String darAltaInmuebleForm(Model model, HttpSession session) {
@@ -39,12 +42,15 @@ public class GestorInmuebles implements IGestorInmuebles{
 	    }
 
 	    if(!(usuario instanceof Propietario)) {
-	        return "redirect:/home";
+	        return "redirect:/search";
 	    }
 	    
 	    Inmueble inmueble = new Inmueble();
 	    
 		model.addAttribute("inmueble", inmueble);
+		model.addAttribute("tipoCalle",TipoCalle.values());
+		model.addAttribute("comodidades", comodidadDAO.findAll());
+		
 		return "propietario/alta-inmueble";
 	}
 	@PostMapping("/propietario/alta-inmueble")
@@ -54,6 +60,8 @@ public class GestorInmuebles implements IGestorInmuebles{
 	    if(!(usuario instanceof Propietario propietario)) {
 	        return "redirect:/login";
 	    }
+	    
+	    
 	    
 	    model.addAttribute("inmueble", inmueble);
 	    inmueble.setPropietario(propietario);
