@@ -78,6 +78,15 @@ public class Inmueble {
 		return id;
 	}
 	
+	public Set<Comodidad> getComodidades() {
+		return comodidades;
+	}
+	public void setComodidades(Set<Comodidad> comodidades) {
+		this.comodidades = comodidades;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public boolean disponible(Date fechaInicio, Date fechaFin) {
 		if (this.disponibilidades.size()==0) {
 			return false;

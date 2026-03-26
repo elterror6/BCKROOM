@@ -67,13 +67,12 @@
 	        <div class="row">
 	          <div class="col-md-6">
 	            <div class="form-check" th:each="comodidad : ${comodidades}">
-	              <input th:name="comodidadesSeleccionadas" class="form-check-input" type="checkbox" id="'comodidad-'+${comodidad.id}">
+	              <input th:name="comodidadesSeleccionadas" th:value="${comodidad.id}" class="form-check-input" type="checkbox" id="'comodidad-'+${comodidad.id}">
 	              <label class="form-check-label" for="'comodidad-'+${comodidad.id}" th:text="${comodidad.nombre}"></label>
 	            </div>
 	          </div>
 	        </div>
 	      </div>
-	
 	      <!-- 💰 PRECIO -->
 	      <div class="mb-4 p-3 border rounded">
 	        <h5 class="mb-3">Precio*</h5>

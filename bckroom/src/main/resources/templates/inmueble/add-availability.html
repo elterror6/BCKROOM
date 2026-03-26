@@ -1,30 +1,84 @@
-<!DOCTYPE HTML>
-<htlm xmlns:th = "https://www.thymeleaf.org">
-	<head>
-		<link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
-		<link rel="stylesheet" th:href="@{/css/style.css}">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</head>
-	<body class="auth-body">
-		<div class="form-div">
-			<h1 th:text="'Añadir Disponibilidad a ' +${inmueble.direccion}"></h1>
-			<form th:action="@{/inmueble/{id}/add-availability(id=${inmueble.id})}" th:object="${disponibilidad}" method="post" class="form-grid">
-				<div class="form-section">
-					<label for="sd">Fecha de Inicio<br></label>
-					<input type="text" th:field="*{fechaInicio}" id="sd"/>
-					<br>
-					<label for="ed">Fecha de Fin<br></label>
-					<input type="text" th:field="*{fechaFin}" id="ed"/>
-					<br>
-					<label for="price">Precio<br></label>
-					<input type="number" th:field="*{passwd}" id="price"/>
-					<br>
-					<label for="rd">Reserva Directa<br></label>
-					<input type="checkbox" th:field="*{directa}" id="rd"/>
-					<br>
-					<button type="submit">Añadir disponibilidad</button>
-				</div>
-			</form>
-		</div>
-	</body>
+<!DOCTYPE html>
+<html xmlns:th = "https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Añadir disponibilidad</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+  <div class="card shadow p-4" style="width: 100%; max-width: 700px;">
+    
+    <h3 class="text-center mb-4">Añadir disponibilidad</h3>
+
+    <form th:action="@{/inmueble/{id}/add-availability(id=${inmueble.id})}" 
+	      th:object="${disponibilidad}" 
+	      method="post">
+
+      <!--FECHAS-->
+      <div class="mb-4 p-3 border rounded">
+        <h5 class="mb-3">Rango Temporal*</h5>
+
+        <div class="mb-3" id="fechaCompleta">
+          <div class="input-group">
+            <input type="date" class="form-control required" placeholder="Fecha de Inicio" th:field="*{fechaInicio}" required>
+            <span class="input-group-text">-</span>
+            <input type="date" class="form-control required" placeholder="Fecha de Fin" th:field="*{fechaFin}" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESERVA -->
+      <div class="mb-4 p-3 border rounded">
+        <h5 class="mb-3">Reserva</h5>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="reserva" th:field="*{directa}">
+              <label class="form-check-label" for="reserva">Inmediata</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--POLÍTICA DE CANCELACIÓN-->
+      <div class="mb-4 p-3 border rounded">
+        <h5 class="mb-3">Política de Cancelación*</h5>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-check" th:each="cancelacion : ${cancelaciones}">
+              <input class="form-check-input" th:field="*{politicaCancelacion}" type="radio" th:id="'cancelacion-'+${cancelacion}" th:name="'cancelacion-'+${cancelacion}" th:value="${cancelacion}" required>
+              <label class="form-check-label" for="cancelacion-reem" th:text="${cancelacion}"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--PRECIO-->
+      <div class="mb-4 p-3 border rounded">
+        <h5 class="mb-3">Precio*</h5>
+
+        <div class="row">
+          <div class="col">
+            <input type="number" class="form-control" placeholder="Precio por noche (€)"  th:field="*{precio}" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="d-flex gap-2">
+        <button type="submit" name="accion" value="done" class="btn btn-primary w-100">Guardar</button>
+        <button type="submit" name="accion" value="add" class="btn btn-primary w-100">Guardar y Añadir Más</button>
+        <button type="submit" name="accion" value="cancelar" class="btn btn-danger w-100">Cancelar</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+</body>
 </html>
