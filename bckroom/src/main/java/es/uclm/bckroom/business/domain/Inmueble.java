@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -35,6 +36,7 @@ public class Inmueble {
 	@OneToMany(mappedBy = "inmueble", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Disponibilidad> disponibilidades;
 	
+	@ManyToMany
 	@JoinTable(
 		name = "comodidad_inmueble",
 		joinColumns = @JoinColumn(name = "inmueble_id"),

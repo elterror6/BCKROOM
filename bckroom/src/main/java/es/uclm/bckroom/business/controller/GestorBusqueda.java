@@ -1,5 +1,6 @@
 package es.uclm.bckroom.business.controller;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,9 +8,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.ui.Model;
+
+import es.uclm.bckroom.business.domain.FiltroDTO;
 import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Inquilino;
 import es.uclm.bckroom.business.domain.ListaDeseos;
@@ -68,6 +73,27 @@ public class GestorBusqueda {
 	    model.addAttribute("deseados", deseados);
 
 	    return "search";
+	}
+	@PostMapping("/buscar/filtrar")
+	public String filtrar(
+	    @RequestParam(required = false) Date fechaInicio,
+	    @RequestParam(required = false) Date fechaFin,
+	    @RequestBody FiltroDTO filtros,
+	    Model model
+	) {
+
+	    List<Inmueble> resultados = inmuebleDAO.filtrar(
+	        fechaInicio,
+	        fechaFin,
+	        filtros.getReservaInmediata(),
+	        filtros.getComodidades(),
+	        filtros.getPoliticas(),
+	        filtros.getComodidades() != null ? filtros.getComodidades().size() : 0
+	    );
+
+	    model.addAttribute("resultados", resultados);
+
+	    return "fragments/resultados :: resultadosList";
 	}
 }
 	
