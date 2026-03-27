@@ -38,6 +38,8 @@ public class GestorBusqueda {
 	public String searchGet(@RequestParam(required = false) String ciudad,
 	                       @RequestParam(required = false) Double precioMin,
 	                       @RequestParam(required = false) Double precioMax,
+	                       @RequestParam(required = false) Date fechaInicio,
+	                       @RequestParam(required = false) Date fechaFin,
 	                       Model model,
 	                       HttpSession session) {
 	    Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
@@ -54,7 +56,7 @@ public class GestorBusqueda {
 
 	    model.addAttribute("usuario", usuario);
 
-	    List<Inmueble> resultados = inmuebleDAO.buscarPorCiudadPrecioMinMax(ciudad, precioMin, precioMax);
+	    List<Inmueble> resultados = inmuebleDAO.buscarPorCiudadPrecioMinMaxFechaInicioFin(ciudad, precioMin, precioMax, fechaInicio, fechaFin);
 
 	    model.addAttribute("resultados", resultados);
 	    model.addAttribute("ciudad", ciudad);

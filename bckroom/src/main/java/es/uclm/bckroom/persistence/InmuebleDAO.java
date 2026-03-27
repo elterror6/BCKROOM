@@ -12,14 +12,16 @@ import es.uclm.bckroom.business.domain.PoliticaCancelacion;
 
 public interface InmuebleDAO extends JpaRepository<Inmueble, Long> {
 	@Query("""
-			SELECT i FROM Inmueble i
-			WHERE (:ciudad IS NULL OR i.direccion.base.ciudad = :ciudad)
-				AND (:precioMin IS NULL OR i.precioNoche >= :precioMin)
-			    AND (:precioMax IS NULL OR i.precioNoche <= :precioMax) 
-			
-			""")
-	List<Inmueble> buscarPorCiudadPrecioMinMax(String ciudad,
-			Double precioMin, Double precioMax);
+	    SELECT DISTINCT i FROM Inmueble i
+	    JOIN i.disponibilidades d
+	    WHERE (:ciudad IS NULL OR i.direccion.base.ciudad = :ciudad)
+	        AND (:precioMin IS NULL OR i.precioNoche >= :precioMin)
+	        AND (:precioMax IS NULL OR i.precioNoche <= :precioMax)
+	        AND (:fechaInicio IS NULL OR d.fechaInicio <= :fechaInicio)
+	        AND (:fechaFin IS NULL OR d.fechaFin >= :fechaFin)
+	""")
+	List<Inmueble> buscarPorCiudadPrecioMinMaxFechaInicioFin(String ciudad,
+			Double precioMin, Double precioMax, Date fechaInicio, Date fechaFin);
 	
 	@Query("""
 			SELECT i FROM Inmueble i
@@ -42,28 +44,28 @@ public interface InmuebleDAO extends JpaRepository<Inmueble, Long> {
 
 	List<Inmueble> findByPropietarioId(Object id);
 	@Query("""
-	SELECT DISTINCT i FROM Inmueble i
-	JOIN i.disponibilidades d
-	LEFT JOIN i.comodidades c
-	WHERE 
-	    (:fechaInicio IS NULL OR d.fechaInicio <= :fechaInicio)
-	AND
-	    (:fechaFin IS NULL OR d.fechaFin >= :fechaFin)
-	AND
-	    (:directa IS NULL OR d.directa = :directa)
-	AND
-	    (:politicas IS NULL OR d.politicaCancelacion IN :politicas)
-	AND
-	    (:comodidades IS NULL OR c.id IN :comodidades)
-	GROUP BY i
-	HAVING (:comodidades IS NULL OR COUNT(DISTINCT c.id) = :numComodidades)
+			SELECT DISTINCT i FROM Inmueble i
+			JOIN i.disponibilidades d
+			LEFT JOIN i.comodidades c
+			WHERE 
+			    (:fechaInicio IS NULL OR d.fechaInicio <= :fechaInicio)
+			AND
+			    (:fechaFin IS NULL OR d.fechaFin >= :fechaFin)
+			AND
+			    (:directa IS NULL OR d.directa = :directa)
+			AND
+			    (:politicas IS NULL OR d.politicaCancelacion IN :politicas)
+			AND
+			    (:comodidades IS NULL OR c.id IN :comodidades)
+			GROUP BY i
+			HAVING (:comodidades IS NULL OR COUNT(DISTINCT c.id) = :numComodidades)
 	""")
 	List<Inmueble> filtrar(
 	    @Param("fechaInicio") Date fechaInicio,
 	    @Param("fechaFin") Date fechaFin,
 	    @Param("directa") Boolean directa,
 	    @Param("comodidades") List<Long> comodidades,
-	    @Param("politicas") List<PoliticaCancelacion> politicas,
+	    @Param("politicas") List<Long> list,
 	    @Param("numComodidades") long numComodidades
 	);
 
