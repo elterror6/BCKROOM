@@ -1,62 +1,130 @@
-<!DOCTYPE HTML>
-<htlm xmlns:th = "https://www.thymeleaf.org">
-	<head>
-		<link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
-		<link rel="stylesheet" th:href="@{/css/style.css}">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</head>
-	<body class="auth-body">
-		<div class="form-div">
-			<h1>Registro de Usuario</h1>
-			<form action="#" th:action="@{/register}" th:object="${usuario}" method="post" class="form-grid">
-				<div class="form-section">
-					<label for="usrnm">Nombre de Usuario*<br></label>
-					<input type="text" th:field="*{username}" id="usrnm" required/>
-					<br>
-					<label for="nm">Nombre*<br></label>
-					<input type="text" th:field="*{nombre}" id="nm"/ required>
-					<br>
-					<label for="1sm">Primer Apellido*<br></label>
-					<input type="text" th:field="*{primerApellido}" id="1sm" required/>
-					<br>
-					<label for="2sm">Segundo Apellido*<br></label>
-					<input type="text" th:field="*{segundoApellido}" id="2sm" required/>
-					<br>
-					<label for="psswd">Contraseña*<br></label>
-					<input type="password" th:field="*{passwd}" id="psswd" required/>
-					<br>
-				</div>
-				<div class="form-section">
-					<label for="strt">Tipo de Calle<br></label>
-					<select id="strt" th:field="*{direccion.tipoCalle}">
-						<option th:each="tipo : ${tiposCalle}"
-						            th:value="${tipo}"
-						            th:text="${tipo}">
-						</option>
-					</select>
-					<br>
-					<label for="str">Nombre de la Calle*<br></label>
-					<input type="text" th:field="*{direccion.calle}" id="str" required/>
-					<br>
-					<label for="ct">Ciudad*<br></label>
-					<input type="text" th:field="*{direccion.ciudad}" id="ct" required/>
-					<br>
-					<label for="prvc">Provincia*<br></label>
-					<input type="text" th:field="*{direccion.estado}" id="prvc" required/>
-					<br>
-					<label for="cp">Código Postal*<br></label>
-					<input type="text" th:field="*{direccion.codigoPostal}" id="cp" required/>
-					<br>
-					<label for="p">País*<br></label>
-					<input type="text" th:field="*{direccion.pais}" id="p" required/>
-					<br>
-				</div>
-				<div class="form-buttons">
-					<button type="submit" name="tipo" value="inquilino">Registrarse</button><br>
-					<p>Tienes propiedades que quieres ofertar:</p>
-					<button type="submit" name="tipo" value="propietario">Registrarse<br>como Propietario</button>
-				</div>
-			</form>
-		</div>
-	</body>
+<!DOCTYPE html>
+<html lang="es" xmlns:th = "https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Registro de Usuario</h2>
+
+      <form th:action="@{/register}" th:object="${usuarioRegistroDTO}" method="post">
+        <!-- DATOS DE CUENTA -->
+        <div class="border rounded p-3 mb-4">
+        <h4 class="mb-3">Datos de Cuenta</h4>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" maxlength="100" required th:field="*{email}"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" maxlength="30" required th:field="*{username}"/>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" required th:field="*{password}">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Repetir contraseña</label>
+            <input type="password" class="form-control" required th:field=*{repetirPassword}>
+          </div>
+        </div>
+
+        </div>
+
+        <!-- DATOS DE USUARIO -->
+        <div class="border rounded p-3 mb-4">
+        <h4 class="mb-3">Datos de Usuario</h4>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" maxlength="50" required th:field="*{nombre}">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Primer Apellido</label>
+            <input type="text" class="form-control" maxlength="50" required th:field="*{primerApellido}">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Segundo Apellido</label>
+            <input type="text" class="form-control" maxlength="50" required th:field="*{segundoApellido}">
+          </div>
+        </div>
+
+        </div>
+
+        <!-- DIRECCIÓN -->
+        <div class="border rounded p-3 mb-4">
+        <h4 class="mb-3">Dirección</h4>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Tipo de calle</label>
+            <select class="form-select" th:field="*{direccion.tipoCalle}">
+              <option th:each="tipo : ${tiposCalle}"
+			  			th:value="${tipo}"
+						th:text="${#strings.capitalize(e.name().toLowerCase())}"></option>
+            </select>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label">Nombre de la calle</label>
+            <input type="text" class="form-control" required th:field="*{direccion.calle}">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Ciudad</label>
+            <input type="text" class="form-control" required th:field="*{direccion.ciudad}">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Provincia</label>
+            <input type="text" class="form-control" required th:field="*{direccion.estado}">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">País</label>
+            <input type="text" class="form-control" required th:field="*{direccion.país}">
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label class="form-label">Código Postal</label>
+            <input type="text" class="form-control" required th:field="*{direccion.codigoPostal}">
+          </div>
+        </div>
+
+        </div>
+
+        <!-- BOTÓN PRINCIPAL CON DROPDOWN -->
+        <div class="text-center">
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Registrarse
+            </button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item" type="submit" name="tipoUsuario" value="INQUILINO">Registro de Inquilino</button></li>
+              <li><button class="dropdown-item" type="submit" name="tipoUsuario" value="PROPIETARIO">Registro de Propietario</button></li>
+            </ul>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+</body>
 </html>
