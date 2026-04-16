@@ -10,8 +10,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.domain.Usuario;
+import es.uclm.bckroom.business.dto.InicioSesionUsuarioDTO;
+import es.uclm.bckroom.business.dto.InquilinoDTO;
+import es.uclm.bckroom.business.dto.PropietarioDTO;
 import es.uclm.bckroom.business.dto.RegistroUsuarioDTO;
 import es.uclm.bckroom.business.dto.TipoUsuario;
+import es.uclm.bckroom.business.dto.UsuarioDTO;
 import es.uclm.bckroom.business.services.ServicioUsuario;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -25,6 +29,7 @@ public class GestorUsuarios implements IGestorUsuarios{
 		super();
 		this.usuarioServicio = usuarioServicio;
 	}
+	
 	@GetMapping("/register")
 	public String getRegisterPage(Model model) {
 		model.addAttribute("usuarioRegistroDTO", new RegistroUsuarioDTO());
@@ -49,12 +54,31 @@ public class GestorUsuarios implements IGestorUsuarios{
 	}
 	 
 	@GetMapping("/login")
-	public String loginForm(Model model) {
-		model.addAttribute("usuario", new Usuario());
+	public String getLogin(Model model) {
+		model.addAttribute("InicioSesionUsuario", new InicioSesionUsuarioDTO());
 		return "login";
 	}
 	@PostMapping("/login")
-	public String loginSubmit(@ModelAttribute Usuario usuario, Model model, HttpSession session) {
+	public String postLogin(@Valid @ModelAttribute InicioSesionUsuarioDTO usuario, 
+			BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) {
+		UsuarioDTO datosUsuarioConSesionIniciada;
+		
+		if (result.hasErrors()) {
+	        return "login";
+	    }
+		
+		try {
+			datosUsuarioConSesionIniciada = usuarioServicio.inicioSesion(usuario);
+		} catch (RuntimeException e) {
+			redirectAttributes.addFlashAttribute("error", e.getMessage());
+			return "redirect:/login";
+		}
+		
+		if (datosUsuarioConSesionIniciada instanceof InquilinoDTO) {
+			return "search";
+		} else if (datosUsuarioConSesionIniciada instanceof PropietarioDTO) {
+			return "propietario/home";
+		}
 		return "404";
 	}
 	
