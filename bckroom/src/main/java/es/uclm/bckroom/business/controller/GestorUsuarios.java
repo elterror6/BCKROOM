@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uclm.bckroom.business.domain.TipoCalle;
-import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.business.dto.InicioSesionUsuarioDTO;
 import es.uclm.bckroom.business.dto.InquilinoDTO;
 import es.uclm.bckroom.business.dto.PropietarioDTO;
 import es.uclm.bckroom.business.dto.RegistroUsuarioDTO;
-import es.uclm.bckroom.business.dto.TipoUsuario;
 import es.uclm.bckroom.business.dto.UsuarioDTO;
 import es.uclm.bckroom.business.services.ServicioUsuario;
 import jakarta.servlet.http.HttpSession;
