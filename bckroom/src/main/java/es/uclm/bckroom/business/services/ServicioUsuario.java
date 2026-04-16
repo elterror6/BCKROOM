@@ -104,7 +104,7 @@ public class ServicioUsuario {
 			List<Inmueble> inmuebles = ((Propietario) usuario).getInmuebles();
 			usuarioIniciadoSesion = new PropietarioDTO(username, nombre, primerApellido, segundoApellido, email, inmuebles);
 		}
-		
+		log.info("["+LocalDate.now()+"] Usuario logueado: "+usuario);
 		return usuarioIniciadoSesion;
 	}
 }
