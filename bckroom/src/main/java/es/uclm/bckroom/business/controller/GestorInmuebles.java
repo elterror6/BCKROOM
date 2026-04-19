@@ -19,6 +19,9 @@ import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Propietario;
 import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.domain.Usuario;
+import es.uclm.bckroom.business.dto.InmuebleDTO;
+import es.uclm.bckroom.business.dto.PropietarioDTO;
+import es.uclm.bckroom.business.dto.UsuarioDTO;
 import es.uclm.bckroom.persistence.DisponibilidadDAO;
 import es.uclm.bckroom.persistence.InmuebleDAO;
 import jakarta.servlet.http.HttpSession;
@@ -32,19 +35,13 @@ public class GestorInmuebles implements IGestorInmuebles{
 
 	@GetMapping("/propietario/alta-inmueble")
 	public String darAltaInmuebleForm(Model model, HttpSession session) {
-		 Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-		 
-	    if(usuario == null) {
-	        return "redirect:/login";
-	    }
-
-	    if(!(usuario instanceof Propietario)) {
-	        return "redirect:/home";
-	    }
-	    
-	    Inmueble inmueble = new Inmueble();
-	    
-		model.addAttribute("inmueble", inmueble);
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		if (usuarioPropietario == null) {
+			 return "redirect:/login";
+		} else if (!(usuarioPropietario instanceof PropietarioDTO)) {
+			return "redirect:/404";
+		}
+		model.addAttribute("nuevoInmueble", new InmuebleDTO((PropietarioDTO)usuarioPropietario));
 		return "propietario/alta-inmueble";
 	}
 	@PostMapping("/propietario/alta-inmueble")

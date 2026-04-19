@@ -11,6 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -29,6 +31,15 @@ public class Inmueble {
 	private double precioNoche;
 	@OneToMany
 	private Set<Disponibilidad> disponibilidades;
+	
+	@ManyToMany
+	@JoinTable(
+		name = "comodidad_inmueble",
+		joinColumns = @JoinColumn(name = "inmueble_id"),
+		inverseJoinColumns = @JoinColumn(name = "comodidad_id")
+	)
+	private Set<Comodidad> comodidades;
+	
 	
 	public Inmueble() {
 	    super();
@@ -65,7 +76,15 @@ public class Inmueble {
 	public Long getId() {
 		return id;
 	}
-	
+	public Set<Comodidad> getComodidades() {
+		return comodidades;
+	}
+	public void setComodidades(Set<Comodidad> comodidades) {
+		this.comodidades = comodidades;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public boolean disponible(Date fechaInicio, Date fechaFin) {
 		if (this.disponibilidades.size()==0) {
 			return false;

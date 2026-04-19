@@ -1,5 +1,7 @@
 package es.uclm.bckroom.business.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.dto.InicioSesionUsuarioDTO;
 import es.uclm.bckroom.business.dto.InquilinoDTO;
@@ -59,7 +62,7 @@ public class GestorUsuarios implements IGestorUsuarios{
 	@PostMapping("/login")
 	public String postLogin(@Valid @ModelAttribute InicioSesionUsuarioDTO usuario, 
 			BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) {
-		UsuarioDTO datosUsuarioConSesionIniciada;
+			UsuarioDTO datosUsuarioConSesionIniciada;
 		
 		if (result.hasErrors()) {
 	        return "login";
@@ -71,10 +74,14 @@ public class GestorUsuarios implements IGestorUsuarios{
 			redirectAttributes.addFlashAttribute("error", e.getMessage());
 			return "redirect:/login";
 		}
-		
+		session.setAttribute("usuarioLogueado", datosUsuarioConSesionIniciada);
 		if (datosUsuarioConSesionIniciada instanceof InquilinoDTO) {
 			return "search";
 		} else if (datosUsuarioConSesionIniciada instanceof PropietarioDTO) {
+			List<Inmueble> inmueblesDelPropietario = ((PropietarioDTO) datosUsuarioConSesionIniciada).getInmuebles();
+			if (inmueblesDelPropietario.size() == 0) {
+				return "propietario/alta-inmueble";
+			}
 			return "propietario/home";
 		}
 		return "404";
