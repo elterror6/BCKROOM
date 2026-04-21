@@ -44,10 +44,11 @@ public class Inmueble {
 	public Inmueble() {
 	    super();
 	}
-	public Inmueble(DireccionInmueble direccion, double precioNoche) {
+	public Inmueble(DireccionInmueble direccion, double precioNoche, Set<Comodidad> comodidades) {
 		super();
 		this.direccion = direccion;
 		this.precioNoche = precioNoche;
+		this.comodidades = comodidades;
 	}
 
 	public DireccionInmueble getDireccion() {

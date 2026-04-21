@@ -44,3 +44,170 @@ Esta clase representa una comodidad de un inmueble. Esta clase se realiza con la
 
 ## Diagrama de Clases
 
+```mermaid
+classDiagram
+    class Usuario {
+        -id: Long 
+        -username: String
+        -email: String
+        -password: String
+        -nombre: String
+        -primerApellido: String
+        -segundoApellido: String
+        -direccion: DireccionUsuario
+
+        +Usuario()
+        +Usuario(username: String, email: String, password: String, nombre: String, primerApellido: String, segundoApellido: String, direccion: DireccionUsuario)
+
+        +getters():String|DireccionUsuario
+        +setters():void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    class Inquilino {
+        -listaDeseos: ListaDeseos
+        -reservasRealizadas: Set
+
+        +Inquilino()
+        +Inquilino(username: String, email: String, password: String, nombre: String, primerApellido: String, segundoApellido: String, direccion: DireccionUsuario, listaDeseos: ListaDeseos, reservasRealizadas: Set)
+    
+        +getters(): ListaDeseos|Set
+        +setters(): void
+
+        +toString(): String
+    }
+
+    class Propietario {
+        -inmueblesEnPropiedad: Set
+
+        +Propietario()
+        +Propietario(username: String, email: String, password: String, nombre: String, primerApellido: String, segundoApellido: String, direccion: DireccionUsuario, inmueblesEnPropiedad: Set)
+
+        +getters(): Set
+        +setters(): void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    class Inmueble {
+        -id: Long
+        -direccion: DireccionInmueble
+        -tipoInmueble: TipoInmueble
+        -precioNoche: double
+        -disponibilidades: Set
+
+        +Inmueble()
+        +Inmueble(direccion: DireccionInmueble, tipoInmueble: TipoInmueble, precioNoche: double, disponibilidades: Set)
+
+        +getters(): 
+        +setters(): void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    class DireccionUsuario {
+        -tipoVia: TipoCalle
+        -nombreVia: String
+        -provincia: String
+        -localidad: String
+        -pais: String
+        -codigoPostal: String
+
+        +DireccionUsuario()
+        +DireccionUsuario(tipoVia: TipoCalle, nombreVia: String, provincia: String, localidad: String, pais: String, codigoPostal: String)
+
+        +getters():
+        +setters(): void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    class DireccionInmueble {
+        -direccionBase: DireccionUsuario
+        -numero: String
+        -piso: String
+        -puerta: String
+        -comodidades: Set
+
+        +DireccionInmueble()
+        +DireccionInmueble(direccionBase: DireccionUsuario, numero: String, piso: String, puerta: String)
+
+        +getters():
+        +setters(): void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    class Disponibilidad {
+        -id: Long
+        -fechaInicio: Datetime
+        -fechaFinal: Datetime
+        -precio: double
+        -inmuebleDisponible: Inmueble
+
+        +Disponibilidad()
+        +Disponibilidad(fechaInicio: Datetime, fechaFinal: Datetime, precio: double, inmuebleDisponible: Inmueble)
+
+        +getters():
+        +setters(): void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    class ListaDeseos {
+        -id: Long
+        -inquilino: Inquilino
+        -inmueblesDeseados: Set
+
+        +ListaDeseos()
+        +ListaDeseos(inquilino: Inquilino, inmueblesDeseados: Set)
+
+        +getters():
+        +setters(): void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    class TipoCalle {
+        ... tipos de calle ...
+    }
+
+    class Comodidad {
+        -id: Long
+        -nombreComodidad: String
+
+        +Comodidad()
+        +Comodidad(nombreComodidad: String)
+
+        +getters():
+        +setters(): void
+
+        +toString(): String
+        +equals(obj: Object): boolean
+    }
+
+    Inquilino --|> Usuario
+    Propietario --|> Usuario
+
+    Propietario "1" *-- "1, *" Inmueble
+
+    Usuario "1" *-- "1" DireccionUsuario
+
+    DireccionInmueble "1" *-- "1" DireccionUsuario
+    Inmueble "1" -- "1" DireccionInmueble
+
+    Disponibilidad "0, *" -- "1" Inmueble
+
+    Inquilino "1" -- "1" ListaDeseos
+    ListaDeseos "1" o--> "0,*" Inmueble
+
+    DireccionUsuario "1" --> "1" TipoCalle
+```

@@ -8,11 +8,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uclm.bckroom.business.domain.Disponibilidad;
 import es.uclm.bckroom.business.domain.Inmueble;
@@ -22,93 +24,68 @@ import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.business.dto.InmuebleDTO;
 import es.uclm.bckroom.business.dto.PropietarioDTO;
 import es.uclm.bckroom.business.dto.UsuarioDTO;
+import es.uclm.bckroom.business.services.ServicioInmueble;
+import es.uclm.bckroom.business.services.ServicioUsuario;
 import es.uclm.bckroom.persistence.DisponibilidadDAO;
 import es.uclm.bckroom.persistence.InmuebleDAO;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class GestorInmuebles implements IGestorInmuebles{
-	@Autowired
-	private InmuebleDAO inmuebleDAO;
-	@Autowired
-	private DisponibilidadDAO disponibilidadDAO;
-
+	private final ServicioInmueble inmuebleServicio;
+	private final ServicioUsuario usuarioServicio;
+	
+	public GestorInmuebles(ServicioInmueble inmuebleServicio, ServicioUsuario usuarioServicio) {
+		super();
+		this.inmuebleServicio = inmuebleServicio;
+		this.usuarioServicio = usuarioServicio;
+	}
+	
 	@GetMapping("/propietario/alta-inmueble")
-	public String darAltaInmuebleForm(Model model, HttpSession session) {
+	public String getAltaInmueble(Model model, HttpSession session) {
 		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
-		if (usuarioPropietario == null) {
-			 return "redirect:/login";
-		} else if (!(usuarioPropietario instanceof PropietarioDTO)) {
-			return "redirect:/404";
-		}
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login"; 
+			
 		model.addAttribute("nuevoInmueble", new InmuebleDTO((PropietarioDTO)usuarioPropietario));
 		return "propietario/alta-inmueble";
 	}
 	@PostMapping("/propietario/alta-inmueble")
-	public String darAltaInmuebleSubmit(@ModelAttribute("inmueble") Inmueble inmueble, HttpSession session, Model model) {
-		 Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-		 
-	    if(!(usuario instanceof Propietario propietario)) {
-	        return "redirect:/login";
+	public String postAltaInmueble(@Valid @ModelAttribute InmuebleDTO inmueble, HttpSession session,
+				BindingResult result, RedirectAttributes redirectAttributes) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		if (result.hasErrors()) {
+	        return "propietario/alta-inmueble";
 	    }
-	    
-	    model.addAttribute("inmueble", inmueble);
-	    inmueble.setPropietario(propietario);
-	    inmuebleDAO.save(inmueble);
-	    
-	    return "/propietario/alta-inmueble-success";
+		
+		inmuebleServicio.altaInmueble(inmueble, (PropietarioDTO)usuarioPropietario);
+		return "propietario/home";
 	}
+	@GetMapping("/propietario/inmuebles")
+	public String getInmuebles(Model model, HttpSession session) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		List<InmuebleDTO> inmueblesPropietario;
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		inmueblesPropietario = inmuebleServicio.getInmueblesPropietario((PropietarioDTO)usuarioPropietario);
+		
+		model.addAttribute("inmuebles", inmueblesPropietario);
+		
+		return "propietario/inmuebles";
+	}
+	@PostMapping("/propietario/inmuebles")
+	public String postBajaInmueble() {
+		return "propietario/inmuebles";
+	}
+	
 	@ModelAttribute("tiposCalle")
 	public TipoCalle[] tiposCalle() {
 	    return TipoCalle.values();
-	}
-	
-	@GetMapping("/propietario/home")
-	public String getHome(Model model, HttpSession session) {
-
-	    Propietario propietario = (Propietario) session.getAttribute("usuario");
-
-	    if (propietario == null) {
-	        return "redirect:/login";
-	    }
-
-	    List<Inmueble> todos =
-	        inmuebleDAO.findByPropietarioId(propietario.getId());
-
-	    Date hoy = new Date();
-
-	    List<Inmueble> disponibles = new ArrayList<>();
-	    List<Inmueble> noDisponibles = new ArrayList<>();
-
-	    for (Inmueble i : todos) {
-	        if (i.disponible(hoy, hoy)) {
-	            disponibles.add(i);
-	        } else {
-	            noDisponibles.add(i);
-	        }
-	    }
-
-	    model.addAttribute("disponibles", disponibles);
-	    model.addAttribute("noDisponibles", noDisponibles);
-
-	    return "/propietario/home";
-	}
-	
-	@PostMapping("/propietario/home")
-	public String postHome(@RequestParam Long id_inmueble, HttpSession session, Model model, @RequestParam String accion) {
-		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-
-	    if (usuario == null || !(usuario instanceof Propietario)) {
-	        return "redirect:/login";
-	    }
-	    
-	    if (accion.equals(add)) {
-	    	return "redirect:/inmueble/"+id_inmueble+"/add-availability";
-	    } else if (accion.equals(check)){
-	    	return "redirect:/inmueble/"+id_inmueble+"/check-availability";
-	    }
-	    
-	    return "/propietario/home";
 	}
 	
 	@GetMapping("/inmueble/{id}/add-availability")

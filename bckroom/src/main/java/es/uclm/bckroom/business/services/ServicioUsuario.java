@@ -107,4 +107,12 @@ public class ServicioUsuario {
 		log.info("["+LocalDate.now()+"] Usuario logueado: "+usuario);
 		return usuarioIniciadoSesion;
 	}
+	
+	public boolean comprobarRolUsuario(UsuarioDTO usuario, Class<?> claseUsuario) {
+		boolean resultado = true;
+		if (usuario == null || !claseUsuario.isInstance(usuario)) {
+			resultado = false;
+		}
+		return resultado;
+	}
 }
