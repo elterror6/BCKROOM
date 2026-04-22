@@ -20,6 +20,7 @@ import es.uclm.bckroom.business.domain.Disponibilidad;
 import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Propietario;
 import es.uclm.bckroom.business.domain.TipoCalle;
+import es.uclm.bckroom.business.domain.TipoInmueble;
 import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.business.dto.InmuebleDTO;
 import es.uclm.bckroom.business.dto.PropietarioDTO;
@@ -49,6 +50,7 @@ public class GestorInmuebles implements IGestorInmuebles{
 		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login"; 
 			
 		model.addAttribute("nuevoInmueble", new InmuebleDTO((PropietarioDTO)usuarioPropietario));
+		model.addAttribute("tiposInmueble", TipoInmueble.values());
 		return "propietario/alta-inmueble";
 	}
 	@PostMapping("/propietario/alta-inmueble")
@@ -78,8 +80,14 @@ public class GestorInmuebles implements IGestorInmuebles{
 		
 		return "propietario/inmuebles";
 	}
-	@PostMapping("/propietario/inmuebles")
-	public String postBajaInmueble() {
+	@PostMapping("/propietario/baja-inmueble")
+	public String postBajaInmueble(@ModelAttribute Long idInmueble, HttpSession session) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		inmuebleServicio.bajaInmueble(idInmueble);
+		
 		return "propietario/inmuebles";
 	}
 	
@@ -88,47 +96,9 @@ public class GestorInmuebles implements IGestorInmuebles{
 	    return TipoCalle.values();
 	}
 	
-	@GetMapping("/inmueble/{id}/add-availability")
-	public String getAddAvailability(@PathVariable Long id, Model model) {
-
-	    Inmueble inmueble = inmuebleDAO.findById(id).orElse(null);
-
-	    model.addAttribute("inmueble", inmueble);
-
-	    return "add-availability";
-	}
-	@PostMapping("/inmueble/{id}/add-availability")
+	@PostMapping("/propietario/inmueble/{id}/disponibilidad")
 	public String postAddAvailability(@PathVariable Long id, @ModelAttribute Disponibilidad disponibilidad, HttpSession session ) {
-		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-
-	    if (usuario == null || !(usuario instanceof Propietario)) {
-	        return "redirect:/login";
-	    }
-
-	    Inmueble inmueble = inmuebleDAO.findById(id).orElse(null);
-
-	    disponibilidad.setInmueble(inmueble);
-
-	    disponibilidadDAO.save(disponibilidad);
-
-	    return "redirect:/propietario/home";
-	}
-	@GetMapping("/inmueble/{id}/check-availability")
-	public String checkDisponibilidadesFromInmueble(@PathVariable Long id, Model model, HttpSession session) {
-		Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
-
-	    if (usuario == null || !(usuario instanceof Propietario)) {
-	        return "redirect:/login";
-	    }
-	    
-	    Inmueble inmueble = inmuebleDAO.findById(id).orElse(null);
-	    
-	    Set<Disponibilidad> disponibilidades = inmueble.getDisponibilidades();
-	    
-	    model.addAttribute("disponibilidades",disponibilidades);
-	    
-	    
-		return "/inmueble/"+id+"/check-availability";
+	    return "redirect:/propietario/inmueble/{id}/disponibilidad";
 	}
 	
 }

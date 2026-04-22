@@ -30,11 +30,21 @@ public class ServicioInmueble {
 		Optional<Usuario> consultaUsuario = usuarioDAO.findByEmail(propietarioDTO.getEmail());
 		Propietario propietario = (Propietario) consultaUsuario.get();
 		
-		Inmueble nuevoInmueble = new Inmueble(inmuebleDTO.getDireccion(), inmuebleDTO.getPrecioNoche(), inmuebleDTO.getComodidades());
+		Inmueble nuevoInmueble = new Inmueble(inmuebleDTO.getDireccion(), inmuebleDTO.getPrecioNoche(), 
+				inmuebleDTO.getComodidades(), inmuebleDTO.getTipo(), inmuebleDTO.getNumeroHabitaciones(),
+				inmuebleDTO.getNumeroBanios());
 		propietario.addInmueble(nuevoInmueble);
 		
 		inmuebleDAO.save(nuevoInmueble);
 		log.info("Propiedad guardada con exito:: "+nuevoInmueble);
+	}
+	
+	public void bajaInmueble(Long idInmueble) {
+		Optional<Inmueble> consultaInmueble = inmuebleDAO.findById(idInmueble);
+		Inmueble inmuebleParaEliminar = consultaInmueble.get();
+		
+		inmuebleDAO.delete(inmuebleParaEliminar);
+		log.info("Inmueble eliminado con exito:: "+inmuebleParaEliminar);
 	}
 	
 	public List<InmuebleDTO> getInmueblesPropietario (PropietarioDTO propietarioDTO) {
@@ -46,7 +56,10 @@ public class ServicioInmueble {
 		
 		
 		for(Inmueble inmueble: inmueblesPropietario) {
-			inmuebleDTO = new InmuebleDTO(propietarioDTO, inmueble.getDireccion(), inmueble.getPrecioNoche(), inmueble.getDisponibilidades(), inmueble.getComodidades());
+			inmuebleDTO = new InmuebleDTO(propietarioDTO, inmueble.getDireccion(), inmueble.getPrecioNoche(), 
+					inmueble.getDisponibilidades(), inmueble.getComodidades(), inmueble.getTipo(),
+					inmueble.getNumeroHabitaciones(), inmueble.getNumeroBanios());
+			inmuebleDTO.setId(inmueble.getId());
 			inmueblesPropietarioDTOs.add(inmuebleDTO);
 		}
 		return inmueblesPropietarioDTOs;

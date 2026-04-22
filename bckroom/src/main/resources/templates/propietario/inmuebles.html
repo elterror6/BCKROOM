@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inmuebles</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <!-- Botón volver atrás -->
+    <button class="btn btn-secondary mb-3" onclick="goBack()">
+        ← Volver atrás
+    </button>
+
+    <!-- Sección central -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Mis Inmuebles</h3>
+
+        <!-- Botón añadir -->
+        <button class="btn btn-secundary">
+            +
+        </button>
+    </div>
+
+    <!-- Cards -->
+    <div class="row g-3">
+
+        <!-- Card -->
+        <div class="col-md-4" th:each="inmueble: ${inmuebles}">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title" th:value="${inmueble.tipo}" th:text="${#strings.capitalize(e.name().toLowerCase())}"></h5>
+                    <p class="card-text" th:text="'Habitaciones ' + ${inmueble.numeroHabitaciones} + ' · Baños '+${inmueble.numeroBanios}+' · '+${inmueble.direccion.base.ciudad}">
+                    </p>
+					<a th:href="@{/propietario/inmueble/{id}/disponibilidad(id=${inmueble.id})}"
+					   class="btn btn-primary btn-sm">
+					    Ver Disponibilidad
+					</a>
+					<form method="post">
+	                    <div class="d-flex justify-content-between">
+							<input type="hidden" name="id" th:value="${inmueble.id}">
+	
+	                        <button class="btn btn-danger btn-sm" type="submit" th:formaction="@{/propietario/baja-inmueble}">
+	                            Eliminar inmueble
+	                        </button>
+	                    </div>
+					</form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>

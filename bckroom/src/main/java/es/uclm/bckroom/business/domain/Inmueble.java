@@ -1,7 +1,6 @@
 package es.uclm.bckroom.business.domain;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -24,7 +23,12 @@ public class Inmueble {
 	@ManyToOne
 	@JoinColumn(name = "propietario_id")
 	private Propietario propietario;
-	
+	@Column
+	private TipoInmueble tipo;
+	@Column
+	private int numeroHabitaciones;
+	@Column
+	private int numeroBanios;
 	@Embedded
 	private DireccionInmueble direccion;
 	@Column
@@ -44,11 +48,14 @@ public class Inmueble {
 	public Inmueble() {
 	    super();
 	}
-	public Inmueble(DireccionInmueble direccion, double precioNoche, Set<Comodidad> comodidades) {
+	public Inmueble(DireccionInmueble direccion, double precioNoche, Set<Comodidad> comodidades, TipoInmueble tipo, int numeroHabitaciones, int numeroBanios) {
 		super();
 		this.direccion = direccion;
 		this.precioNoche = precioNoche;
 		this.comodidades = comodidades;
+		this.tipo = tipo;
+		this.numeroHabitaciones = numeroHabitaciones;
+		this.numeroBanios = numeroBanios;
 	}
 
 	public DireccionInmueble getDireccion() {
@@ -101,6 +108,24 @@ public class Inmueble {
 	}
 	public void setDisponibilidades(Set<Disponibilidad> disponibilidades) {
 		this.disponibilidades = disponibilidades;
+	}
+	public TipoInmueble getTipo() {
+		return tipo;
+	}
+	public void setTipo(TipoInmueble tipo) {
+		this.tipo = tipo;
+	}
+	public int getNumeroHabitaciones() {
+		return numeroHabitaciones;
+	}
+	public void setNumeroHabitaciones(int numeroHabitaciones) {
+		this.numeroHabitaciones = numeroHabitaciones;
+	}
+	public int getNumeroBanios() {
+		return numeroBanios;
+	}
+	public void setNumeroBanios(int numeroBanios) {
+		this.numeroBanios = numeroBanios;
 	}
 	@Override
 	public boolean equals(Object o) {

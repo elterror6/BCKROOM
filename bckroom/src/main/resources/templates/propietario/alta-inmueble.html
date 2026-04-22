@@ -73,6 +73,7 @@
 	          </div>
 	        </div>
 	      </div>
+		  
 	      <!-- PRECIO -->
 	      <div class="mb-4 p-3 border rounded">
 	        <h5 class="mb-3">Precio*</h5>
@@ -83,7 +84,36 @@
 	          </div>
 	        </div>
 	      </div>
-	
+		  <!-- DATOS DEL INMUEBLE -->
+		  <div class="mb-4 p-3 border rounded">
+		    <h5 class="mb-3">Datos del Inmueble</h5>
+
+		    <div class="row mb-3">
+		      <!-- Tipo de inmueble -->
+		      <div class="col-md-4">
+		        <label class="form-label">Tipo de inmueble</label>
+		        <select class="form-select" th:field="*{tipo}">
+		          <option value="" disabled selected>Selecciona tipo</option>
+		          <option th:each="tipo : ${tiposInmueble}"
+		                  th:value="${tipo}"
+		                  th:text="${#strings.capitalize(e.name().toLowerCase())}">
+		          </option>
+		        </select>
+		      </div>
+
+		      <!-- Número de habitaciones -->
+		      <div class="col-md-4">
+		        <label class="form-label">Habitaciones</label>
+				<input th:field="*{numeroHabitaciones}" type="number" class="form-control" placeholder="Número de Habitaciones*" required step="1" min="1">
+		      </div>
+
+		      <!-- Número de baños -->
+		      <div class="col-md-4">
+		        <label class="form-label">Baños</label>
+				<input th:field="*{numeroBanios}" type="number" class="form-control" placeholder="Número de Baños*" required step="1" min="1">
+		      </div>
+		    </div>
+		  </div>
 	      <!-- BOTONES -->
 	      <div class="d-flex gap-2">
 	        <button type="submit" class="btn btn-primary w-100">Guardar</button>
