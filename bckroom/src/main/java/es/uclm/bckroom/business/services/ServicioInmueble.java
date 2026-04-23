@@ -1,15 +1,19 @@
 package es.uclm.bckroom.business.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import es.uclm.bckroom.business.domain.Disponibilidad;
 import es.uclm.bckroom.business.domain.Inmueble;
 import es.uclm.bckroom.business.domain.Propietario;
 import es.uclm.bckroom.business.domain.Usuario;
+import es.uclm.bckroom.business.dto.DisponibilidadDTO;
 import es.uclm.bckroom.business.dto.InmuebleDTO;
 import es.uclm.bckroom.business.dto.PropietarioDTO;
 import es.uclm.bckroom.persistence.InmuebleDAO;
@@ -63,6 +67,21 @@ public class ServicioInmueble {
 			inmueblesPropietarioDTOs.add(inmuebleDTO);
 		}
 		return inmueblesPropietarioDTOs;
+	}
+	
+	public Set<DisponibilidadDTO> getDisponibilidades(Long inmuebleId) {
+		Optional<Inmueble> consultaInmueble = inmuebleDAO.findById(inmuebleId);
+		Inmueble inmueble = consultaInmueble.get();
+		Set<DisponibilidadDTO> disponibilidadesDTO = new HashSet<>();
+		
+		for (Disponibilidad disponibilidad: inmueble.getDisponibilidades()) {
+			DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO(inmueble.getId(), disponibilidad.getFechaInicio(), disponibilidad.getFechaFin(),
+					disponibilidad.getPrecio());
+			disponibilidadDTO.setId(disponibilidad.getId());
+			disponibilidadesDTO.add(disponibilidadDTO);
+		}
+		
+		return disponibilidadesDTO;
 	}
 	
 }

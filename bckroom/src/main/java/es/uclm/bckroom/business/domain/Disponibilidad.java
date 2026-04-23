@@ -1,12 +1,16 @@
 package es.uclm.bckroom.business.domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+import jakarta.persistence.Id;
+
 public class Disponibilidad {
+	//TODO: Realizar la configuarción de persistencia JPA
 	private Long id;
 	private Inmueble inmueble;
-	private Date fechaInicio;
-	private Date fechaFin;
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
 	private double precio;
 	public Long getId() {
 		return id;
@@ -30,7 +34,7 @@ public class Disponibilidad {
 		super();
 	}
 
-	public Disponibilidad(Date fechaInicio, Date fechaFin, double precio, boolean directa) {
+	public Disponibilidad(LocalDate fechaInicio, LocalDate fechaFin, double precio, boolean directa) {
 		super();
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -38,19 +42,19 @@ public class Disponibilidad {
 		this.directa = directa;
 	}
 
-	public Date getFechaInicio() {
+	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(LocalDate fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public Date getFechaFin() {
+	public LocalDate getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 

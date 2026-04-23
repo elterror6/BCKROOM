@@ -19,10 +19,10 @@
 
     <!-- Sección central -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Mis Inmuebles</h3>
+        <h3>Disponibilidades</h3>
 
         <!-- Botón añadir -->
-        <a class="btn btn-secundary" href="@{/propietario/alta-inmueble}">
+        <a class="btn btn-secundary" href="@{/propietario/{id}/inmueble/disponibilidad/añadir-disponibilidad}">
             +
         </a>
     </div>
@@ -31,22 +31,18 @@
     <div class="row g-3">
 
         <!-- Card -->
-        <div class="col-md-4" th:each="inmueble: ${inmuebles}">
+        <div class="col-md-4" th:each="disponibilidad: ${disponibilidadesInmueble}">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title" th:value="${inmueble.tipo}" th:text="${#strings.capitalize(e.name().toLowerCase())}"></h5>
-                    <p class="card-text" th:text="'Habitaciones ' + ${inmueble.numeroHabitaciones} + ' · Baños '+${inmueble.numeroBanios}+' · '+${inmueble.direccion.base.ciudad}">
+                    <h5 class="card-title" th:text="${disponibilidad.fechaInicio} + ' - '+ ${disponibilidad.fechaFin}"></h5>
+                    <p class="card-text" th:text="${disponinilidad.precio}">
                     </p>
-					<a th:href="@{/propietario/inmueble/{id}/disponibilidad(id=${inmueble.id})}"
-					   class="btn btn-primary btn-sm">
-					    Ver Disponibilidad
-					</a>
 					<form method="post">
 	                    <div class="d-flex justify-content-between">
-							<input type="hidden" name="id" th:value="${inmueble.id}">
+							<input type="hidden" name="id" th:value="${disponibilidad.id}">
 	
 	                        <button class="btn btn-danger btn-sm" type="submit" th:formaction="@{/propietario/baja-inmueble}">
-	                            Eliminar inmueble
+	                            Eliminar disponibilidad
 	                        </button>
 	                    </div>
 					</form>

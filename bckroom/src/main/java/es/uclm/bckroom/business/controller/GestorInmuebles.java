@@ -1,11 +1,9 @@
 package es.uclm.bckroom.business.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,22 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uclm.bckroom.business.domain.Disponibilidad;
-import es.uclm.bckroom.business.domain.Inmueble;
-import es.uclm.bckroom.business.domain.Propietario;
 import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.domain.TipoInmueble;
-import es.uclm.bckroom.business.domain.Usuario;
+import es.uclm.bckroom.business.dto.DisponibilidadDTO;
 import es.uclm.bckroom.business.dto.InmuebleDTO;
 import es.uclm.bckroom.business.dto.PropietarioDTO;
 import es.uclm.bckroom.business.dto.UsuarioDTO;
 import es.uclm.bckroom.business.services.ServicioInmueble;
 import es.uclm.bckroom.business.services.ServicioUsuario;
-import es.uclm.bckroom.persistence.DisponibilidadDAO;
-import es.uclm.bckroom.persistence.InmuebleDAO;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -95,7 +88,17 @@ public class GestorInmuebles implements IGestorInmuebles{
 	public TipoCalle[] tiposCalle() {
 	    return TipoCalle.values();
 	}
-	
+	@GetMapping("/propietario/inmueble/{id}/disponibilidad")
+	public String getDisponibilidades(@PathVariable Long inmuebleId, HttpSession session, Model model) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		Set<DisponibilidadDTO> disponibilidades = inmuebleServicio.getDisponibilidades(inmuebleId);
+		model.addAttribute("disponibilidadesInmueble",disponibilidades);
+		
+		return "propietario/inmueble/{id}/disponibilidad";
+	}
 	@PostMapping("/propietario/inmueble/{id}/disponibilidad")
 	public String postAddAvailability(@PathVariable Long id, @ModelAttribute Disponibilidad disponibilidad, HttpSession session ) {
 	    return "redirect:/propietario/inmueble/{id}/disponibilidad";
