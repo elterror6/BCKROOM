@@ -16,7 +16,7 @@
     
     <h3 class="text-center mb-4">Añadir disponibilidad</h3>
 
-    <form th:action="@{/inmueble/{id}/add-availability(id=${inmueble.id})}" 
+    <form th:action="@{/propietario/inmueble/{id}/disponibilidad/añadir-disponibilidad(id=${inmueble.id})}" 
 	      th:object="${disponibilidad}" 
 	      method="post">
 
@@ -54,7 +54,7 @@
           <div class="col-md-6">
             <div class="form-check" th:each="cancelacion : ${cancelaciones}">
               <input class="form-check-input" th:field="*{politicaCancelacion}" type="radio" th:id="'cancelacion-'+${cancelacion}" th:name="'cancelacion-'+${cancelacion}" th:value="${cancelacion}" required>
-              <label class="form-check-label" for="cancelacion-reem" th:text="${cancelacion}"></label>
+              <label class="form-check-label" for="cancelacion-reem" th:text="${#strings.capitalize(#strings.toLowerCase(cancelacion))}"></label>
             </div>
           </div>
         </div>

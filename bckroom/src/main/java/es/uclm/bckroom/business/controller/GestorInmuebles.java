@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uclm.bckroom.business.domain.Disponibilidad;
+import es.uclm.bckroom.business.domain.PoliticaCancelacion;
 import es.uclm.bckroom.business.domain.TipoCalle;
 import es.uclm.bckroom.business.domain.TipoInmueble;
 import es.uclm.bckroom.business.dto.DisponibilidadDTO;
@@ -106,7 +107,8 @@ public class GestorInmuebles implements IGestorInmuebles{
 		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
 		
 		model.addAttribute("nuevaDisponibilidad", new DisponibilidadDTO(inmuebleId));
-		return null;
+		model.addAttribute("cancelaciones", PoliticaCancelacion.values());
+		return "propietario/inmueble/{id}/disponibilidad/añadir-disponibilidad";
 	}
 	@PostMapping("/propietario/inmueble/{id}/disponibilidad/añadir-disponibilidad")
 	public String postAniadirDisponibilidad(@PathVariable Long inmuebleId, HttpSession session,
