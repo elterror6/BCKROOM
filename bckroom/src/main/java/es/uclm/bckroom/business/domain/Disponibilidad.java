@@ -1,9 +1,6 @@
 package es.uclm.bckroom.business.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
-
-import jakarta.persistence.Id;
 
 public class Disponibilidad {
 	//TODO: Realizar la configuarción de persistencia JPA
@@ -12,34 +9,28 @@ public class Disponibilidad {
 	private LocalDate fechaInicio;
 	private LocalDate fechaFin;
 	private double precio;
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Inmueble getInmueble() {
-		return inmueble;
-	}
-
-	public void setInmueble(Inmueble inmueble) {
-		this.inmueble = inmueble;
-	}
-
+	private PoliticaCancelacion politicaCancelacion;
 	private boolean directa;
 	
 	public Disponibilidad() {
 		super();
 	}
 
-	public Disponibilidad(LocalDate fechaInicio, LocalDate fechaFin, double precio, boolean directa) {
+	public Disponibilidad(LocalDate fechaInicio, LocalDate fechaFin, Inmueble inmueble,double precio, PoliticaCancelacion politicaCancelacion, boolean directa) {
 		super();
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.precio = precio;
+		this.politicaCancelacion = politicaCancelacion;
 		this.directa = directa;
+	}
+	
+	public PoliticaCancelacion getPoliticaCancelacion() {
+		return politicaCancelacion;
+	}
+
+	public void setPoliticaCancelacion(PoliticaCancelacion politicaCancelacion) {
+		this.politicaCancelacion = politicaCancelacion;
 	}
 
 	public LocalDate getFechaInicio() {
@@ -74,9 +65,25 @@ public class Disponibilidad {
 		this.directa = directa;
 	}
 	
-	public boolean fechasDentroDeRango(Date fechaInicio, Date fechaFin) {
-		boolean fechaInicioBien = fechaInicio.after(this.fechaInicio);
-		boolean fechaFinBien = fechaFin.before(this.fechaFin);
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Inmueble getInmueble() {
+		return inmueble;
+	}
+
+	public void setInmueble(Inmueble inmueble) {
+		this.inmueble = inmueble;
+	}
+	public boolean fechasDentroDeRango(LocalDate fechaInicio, LocalDate fechaFin) {
+		boolean fechaInicioBien = fechaInicio.isAfter(this.fechaInicio);
+		boolean fechaFinBien = fechaFin.isBefore(this.fechaFin);
 		return fechaInicioBien && fechaFinBien;
 	}
 	

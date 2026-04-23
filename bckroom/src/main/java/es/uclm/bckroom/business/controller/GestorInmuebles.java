@@ -99,8 +99,28 @@ public class GestorInmuebles implements IGestorInmuebles{
 		
 		return "propietario/inmueble/{id}/disponibilidad";
 	}
-	@PostMapping("/propietario/inmueble/{id}/disponibilidad")
-	public String postAddAvailability(@PathVariable Long id, @ModelAttribute Disponibilidad disponibilidad, HttpSession session ) {
+	@GetMapping("/propietario/inmueble/{id}/disponibilidad/añadir-disponibilidad")
+	public String getAniadirDisponibilidad(@PathVariable Long inmuebleId, HttpSession session, Model model) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		model.addAttribute("nuevaDisponibilidad", new DisponibilidadDTO(inmuebleId));
+		return null;
+	}
+	@PostMapping("/propietario/inmueble/{id}/disponibilidad/añadir-disponibilidad")
+	public String postAniadirDisponibilidad(@PathVariable Long inmuebleId, HttpSession session,
+			@Valid @ModelAttribute DisponibilidadDTO disponibilidadDTO, BindingResult result) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		if (result.hasErrors()) {
+	        return "propietario/inmueble/{id}/disponibilidad/añadir-disponibilidad";
+	    }
+		
+		inmuebleServicio.setNuevaDisponibilidad(disponibilidadDTO);
+		
 	    return "redirect:/propietario/inmueble/{id}/disponibilidad";
 	}
 	

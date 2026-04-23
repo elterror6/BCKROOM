@@ -76,12 +76,23 @@ public class ServicioInmueble {
 		
 		for (Disponibilidad disponibilidad: inmueble.getDisponibilidades()) {
 			DisponibilidadDTO disponibilidadDTO = new DisponibilidadDTO(inmueble.getId(), disponibilidad.getFechaInicio(), disponibilidad.getFechaFin(),
-					disponibilidad.getPrecio());
+					disponibilidad.getPrecio(), disponibilidad.getPoliticaCancelacion(), disponibilidad.isDirecta());
 			disponibilidadDTO.setId(disponibilidad.getId());
 			disponibilidadesDTO.add(disponibilidadDTO);
 		}
 		
 		return disponibilidadesDTO;
+	}
+	
+	public void setNuevaDisponibilidad(DisponibilidadDTO disponibilidadDTO) {
+		Optional<Inmueble> consultaInmueble = inmuebleDAO.findById(disponibilidadDTO.getId());
+		Inmueble inmueble = consultaInmueble.get();
+		Disponibilidad disponibilidad = new Disponibilidad(disponibilidadDTO.getFechaInicio(), disponibilidadDTO.getFechaFin(), inmueble,
+				disponibilidadDTO.getPrecio(), disponibilidadDTO.getPoliticaCancelacion(), disponibilidadDTO.isDirecta());
+		
+		inmueble.setDisponibilidad(disponibilidad);
+		
+		inmuebleDAO.save(inmueble);
 	}
 	
 }

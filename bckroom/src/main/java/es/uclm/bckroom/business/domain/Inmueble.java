@@ -1,6 +1,5 @@
 package es.uclm.bckroom.business.domain;
 
-import java.util.Date;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -93,21 +92,15 @@ public class Inmueble {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public boolean disponible(Date fechaInicio, Date fechaFin) {
-		if (this.disponibilidades.size()==0) {
-			return false;
-		}
-		for (Disponibilidad disponibilidad: this.disponibilidades) {
-			if (disponibilidad.fechasDentroDeRango(fechaInicio, fechaFin)) return true;
-		}
-		return false;
-	}
 	
 	public Set<Disponibilidad> getDisponibilidades() {
 		return disponibilidades;
 	}
 	public void setDisponibilidades(Set<Disponibilidad> disponibilidades) {
 		this.disponibilidades = disponibilidades;
+	}
+	public void setDisponibilidad(Disponibilidad disponibilidad) {
+		this.disponibilidades.add(disponibilidad);
 	}
 	public TipoInmueble getTipo() {
 		return tipo;

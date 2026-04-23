@@ -35,8 +35,15 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${disponibilidad.fechaInicio} + ' - '+ ${disponibilidad.fechaFin}"></h5>
-                    <p class="card-text" th:text="${disponinilidad.precio}">
-                    </p>
+                    <h6 class="card-text" th:text="${disponinilidad.precio} + ' €'">
+                    </h6>
+					<th:block th:if="${disponibilidad.directa}">
+						<p class="card-text">Reserva Inmediata</p>
+					</th:block>
+					<th:block th:if="${!disponibilidad.directa}">
+						<p class="card-text">Reserva No Inmediata</p>
+					</th:block>
+					<h7 class="card-text" th:text="${#strings.capitalize(#strings.toLowerCase(disponibilidad.politicaCancelacion))}"></h7>
 					<form method="post">
 	                    <div class="d-flex justify-content-between">
 							<input type="hidden" name="id" th:value="${disponibilidad.id}">
