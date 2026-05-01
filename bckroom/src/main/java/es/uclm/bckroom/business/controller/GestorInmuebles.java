@@ -125,5 +125,15 @@ public class GestorInmuebles implements IGestorInmuebles{
 		
 	    return "redirect:/propietario/inmueble/{id}/disponibilidad";
 	}
+	@PostMapping("/propietario/inmueble/{id}/disponibilidad/quitar-disponibilidad")
+	public String postQuitarDisponibilidad(@PathVariable Long inmuebleId, @ModelAttribute Long idDisponibilidad, HttpSession session) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		inmuebleServicio.quitDisponibilidad(idDisponibilidad);
+		
+		return "propietario/inmueble/{id}/disponibilidad";
+	}
 	
 }

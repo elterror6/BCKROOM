@@ -87,6 +87,15 @@ public class GestorUsuarios implements IGestorUsuarios{
 		return "404";
 	}
 	
+	@GetMapping("/propietario/home")
+	public String getHomePropietario(Model model, HttpSession session) {
+		UsuarioDTO usuarioPropietario = (UsuarioDTO) session.getAttribute("usuarioLogueado");
+		
+		if (!usuarioServicio.comprobarRolUsuario(usuarioPropietario, PropietarioDTO.class)) return "redirect:/login";
+		
+		return "propietario/home";
+	}
+	
 	@ModelAttribute("tiposCalle")
 	public TipoCalle[] tiposCalle() {
 	    return TipoCalle.values();

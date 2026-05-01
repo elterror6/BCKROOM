@@ -48,7 +48,7 @@
 	                    <div class="d-flex justify-content-between">
 							<input type="hidden" name="id" th:value="${disponibilidad.id}">
 	
-	                        <button class="btn btn-danger btn-sm" type="submit" th:formaction="@{/propietario/baja-inmueble}">
+	                        <button class="btn btn-danger btn-sm" type="submit" th:formaction="@{/propietario/inmueble/{id}/disponibilidad/quitar-disponibilidad}">
 	                            Eliminar disponibilidad
 	                        </button>
 	                    </div>

@@ -16,17 +16,20 @@ import es.uclm.bckroom.business.domain.Usuario;
 import es.uclm.bckroom.business.dto.DisponibilidadDTO;
 import es.uclm.bckroom.business.dto.InmuebleDTO;
 import es.uclm.bckroom.business.dto.PropietarioDTO;
+import es.uclm.bckroom.persistence.DisponibilidadDAO;
 import es.uclm.bckroom.persistence.InmuebleDAO;
 import es.uclm.bckroom.persistence.UsuarioDAO;
 
 public class ServicioInmueble {
 	private static final Logger log = LoggerFactory.getLogger(ServicioUsuario.class);
 	private final InmuebleDAO inmuebleDAO;
+	private final DisponibilidadDAO disponibilidadDAO;
 	private final UsuarioDAO usuarioDAO;
 	
-	public ServicioInmueble(InmuebleDAO inmuebleDAO, UsuarioDAO usuarioDAO) {
+	public ServicioInmueble(InmuebleDAO inmuebleDAO, UsuarioDAO usuarioDAO, DisponibilidadDAO disponibilidadDAO) {
 		super();
 		this.inmuebleDAO = inmuebleDAO;
+		this.disponibilidadDAO = disponibilidadDAO;
 		this.usuarioDAO = usuarioDAO;
 	}
 	
@@ -93,6 +96,13 @@ public class ServicioInmueble {
 		inmueble.setDisponibilidad(disponibilidad);
 		
 		inmuebleDAO.save(inmueble);
+		log.info("Disponibilidad añadida con éxito:: "+disponibilidad);
 	}
-	
+	public void quitDisponibilidad(Long disponibilidadId) {
+		Optional<Disponibilidad> consultaDisponibilidad = disponibilidadDAO.findById(disponibilidadId);
+		Disponibilidad disponibilidad = consultaDisponibilidad.get();
+		
+		disponibilidadDAO.delete(disponibilidad);
+		log.info("Disponibilidad eliminada con exito:: "+disponibilidad);
+	}
 }
